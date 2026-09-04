@@ -1,0 +1,33 @@
+@layer theme, base, components, utilities;
+
+@source "src/main/resources/static/index.html";
+@source "src/main/resources/static/app.js";
+@source "src/main/resources/data/pages/**/*.json";
+@source inline("bg-[var(--black)] bg-[var(--danger)] bg-[var(--success)] bg-[var(--primary)] bg-black bg-white bg-red-500 bg-green-500 bg-red-600 bg-green-600");
+
+/* CSS variables – keep same palette so layout colors stay identical */
+:root {
+  --bg: #0f1220;
+  --panel: #1a1f35;
+  --panel-2: #232a45;
+  --accent: #6c8cff;
+  --accent-2: #3ad29f;
+  --danger: #ff6b6b;
+  --text: #e6e9f5;
+  --muted: #9aa3c7;
+  --border: #2c3354;
+  /* extra semantic colors so bg-[var(--black)] / bg-[var(--success)] etc work in JSON */
+  --black: #111111;
+  --white: #ffffff;
+  --success: #3ad29f;
+  --primary: #6c8cff;
+}
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; }
+}
+@layer components { }

@@ -1,0 +1,38 @@
+{
+  "pageId": "merchant_1-confirmation",
+  "pageKey": "confirmation",
+  "merchantId": "merchant_1",
+  "status": "PUBLISHED",
+  "version": 1,
+  "createdAt": "2026-08-27T10:15:00",
+  "updatedAt": "2026-08-27T10:15:00",
+  "layout": {
+    "type": "Screen",
+    "title": "Booking Confirmed",
+    "subtitle": "Thank you for your purchase!",
+    "components": [
+      {
+        "type": "ConfirmationCard",
+        "id": "confirmationCard",
+        "orderId": "ORD-2026-000123",
+        "event": "Live in Concert 2026 - Arena Show",
+        "seats": ["A12"],
+        "total": 129.5,
+        "currency": "USD"
+      },
+      {
+        "type": "Button",
+        "id": "homeBtn",
+        "label": "Back to Seat Selection",
+        "style": "secondary",
+        "actions": {
+          "onClick": {
+            "type": "navigate",
+            "target": "seat_selection",
+            "endpoint": "/api/client/page/merchant_1/seat_selection"
+          }
+        }
+      }
+    ]
+  }
+}

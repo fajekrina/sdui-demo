@@ -1,0 +1,58 @@
+{
+  "pageId": "merchant_1-payment",
+  "pageKey": "payment",
+  "merchantId": "merchant_1",
+  "status": "PUBLISHED",
+  "version": 1,
+  "createdAt": "2026-08-27T10:10:00",
+  "updatedAt": "2026-08-27T10:10:00",
+  "layout": {
+    "type": "Screen",
+    "title": "Payment",
+    "subtitle": "Secure payment",
+    "components": [
+      {
+        "type": "Button",
+        "id": "backBtn",
+        "label": "← Back",
+        "class": "inline-flex items-center justify-center rounded-lg border border-[#ddd] bg-white px-4 py-2 text-sm font-medium text-[#111] hover:border-[var(--accent)] transition-colors",
+        "actions": { "onClick": { "type": "back" } }
+      },
+      {
+        "type": "PaymentForm",
+        "id": "paymentForm",
+        "amount": 129.5,
+        "currency": "USD",
+        "methods": ["CARD", "PAYPAL", "APPLE_PAY"],
+        "fields": [
+          { "name": "cardNumber", "type": "text", "label": "Card Number", "required": true },
+          { "name": "expiry", "type": "text", "label": "Expiry (MM/YY)", "required": true },
+          { "name": "cvc", "type": "text", "label": "CVC", "required": true }
+        ],
+        "validation": {
+          "rules": [
+            { "field": "method", "required": true, "message": "Select a payment method." },
+            { "field": "amount", "required": true, "type": "number", "min": 0.01, "message": "Invalid amount." }
+          ]
+        },
+        "actions": {
+          "onSubmit": {
+            "type": "submit",
+            "endpoint": "/api/client/action/submit",
+            "action": "PAYMENT",
+            "success": {
+              "type": "navigate",
+              "target": "confirmation",
+              "endpoint": "/api/client/page/merchant_1/confirmation",
+              "message": "Payment successful!"
+            },
+            "error": {
+              "type": "alert",
+              "message": "Payment failed. Please check your details."
+            }
+          }
+        }
+      }
+    ]
+  }
+}

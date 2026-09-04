@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SDUI Visual Builder</title>
+  <link rel="stylesheet" href="tailwind.css" />
+</head>
+<body class="m-0 bg-[var(--bg)] text-[var(--text)] font-[Segoe_UI,system-ui,sans-serif] antialiased min-h-screen">
+  <!-- Header: same flex layout as before, now with Tailwind utilities -->
+  <header class="flex flex-wrap items-center gap-4 px-6 py-4 bg-[var(--panel)] border-b border-[var(--border)]">
+    <h1 class="m-0 text-[18px] font-bold leading-none tracking-tight">🎫 SDUI JSON Visual Builder</h1>
+    <div class="flex flex-wrap items-center gap-2">
+      <label for="merchantId" class="text-sm text-[var(--muted)] font-medium">Merchant</label>
+      <input id="merchantId" value="merchant_1" size="14"
+        class="rounded-lg border border-[var(--border)] bg-[var(--panel-2)] px-2.5 py-2 text-sm text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)]" />
+      <button onclick="loadPages()"
+        class="inline-flex items-center justify-center rounded-lg border bg-[var(--accent)] px-3 py-2 text-sm font-semibold text-[#0b0e1a] border-[var(--accent)] hover:brightness-110 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">Load</button>
+      <button onclick="newPage()"
+        class="inline-flex items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm font-medium text-[var(--text)] hover:border-[var(--accent)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">+ New Page</button>
+    </div>
+  </header>
+
+  <!-- Layout: same 3-column grid 260px 1fr 420px, gap 1px, height calc(100vh-65px) -->
+  <div class="grid grid-cols-[260px_1fr_420px] gap-px bg-[var(--border)] h-[calc(100vh-65px)]">
+    <!-- Col 1: Pages -->
+    <div class="bg-[var(--bg)] p-4 overflow-auto">
+      <h2 class="m-0 mb-3 text-[13px] font-semibold uppercase tracking-[0.08em] text-[var(--muted)]">Pages</h2>
+      <div id="pageList"><div class="py-2 text-sm italic text-[var(--muted)]">No pages loaded.</div></div>
+    </div>
+
+    <!-- Col 2: Editor -->
+    <div class="bg-[var(--bg)] p-4 overflow-auto flex flex-col">
+      <h2 class="m-0 mb-3 text-[13px] font-semibold uppercase tracking-[0.08em] text-[var(--muted)]">Editor (JSON)</h2>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <button onclick="savePage()"
+          class="inline-flex items-center justify-center rounded-lg border bg-[var(--accent)] px-3 py-2 text-sm font-semibold text-[#0b0e1a] border-[var(--accent)] hover:brightness-110 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">Save</button>
+        <button onclick="publishPage()"
+          class="inline-flex items-center justify-center rounded-lg border bg-[var(--accent-2)] px-3 py-2 text-sm font-semibold text-[#06281d] border-[var(--accent-2)] hover:brightness-110 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent-2)]">Publish</button>
+        <button onclick="deletePage()"
+          class="inline-flex items-center justify-center rounded-lg border border-[var(--danger)] bg-[var(--panel-2)] px-3 py-2 text-sm font-medium text-[var(--danger)] hover:bg-[rgba(255,107,107,0.08)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--danger)]">Delete</button>
+        <button onclick="previewPage()"
+          class="inline-flex items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm font-medium text-[var(--text)] hover:border-[var(--accent)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">Preview</button>
+        <button onclick="formatJson()"
+          class="inline-flex items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm font-medium text-[var(--text)] hover:border-[var(--accent)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent)]">Format</button>
+      </div>
+      <textarea id="editor" spellcheck="false"
+        class="w-full flex-1 min-h-[55vh] resize-y rounded-lg border border-[var(--border)] bg-[var(--panel-2)] p-3 font-mono text-[13px] leading-[1.5] text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-[var(--accent)]"></textarea>
+      <div id="msg" class="min-h-[28px]"></div>
+    </div>
+
+    <!-- Col 3: Client Preview -->
+    <div class="bg-[var(--bg)] p-4 overflow-auto">
+      <h2 class="m-0 mb-3 text-[13px] font-semibold uppercase tracking-[0.08em] text-[var(--muted)]">Client Preview (published)</h2>
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <button id="navBack" onclick="goBack()"
+          class="inline-flex items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--panel-2)] px-3 py-2 text-sm font-medium text-[var(--text)] hover:border-[var(--accent)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent)] disabled:opacity-40 disabled:cursor-not-allowed">← Back</button>
+        <span id="navPath" class="text-xs text-[var(--muted)] self-center"></span>
+      </div>
+      <div id="preview"><div class="py-2 text-sm italic text-[var(--muted)]">Select a page and click Preview.</div></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

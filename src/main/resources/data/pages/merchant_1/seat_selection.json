@@ -1,0 +1,73 @@
+{
+  "pageId": "merchant_1-seat_selection",
+  "pageKey": "seat_selection",
+  "merchantId": "merchant_1",
+  "status": "PUBLISHED",
+  "version": 1,
+  "createdAt": "2026-08-27T10:00:00",
+  "updatedAt": "2026-08-27T10:00:00",
+  "layout": {
+    "type": "Screen",
+    "title": "Select Your Seats",
+    "subtitle": "Concert: Live in Concert 2026 - Arena Show",
+    "components": [
+      {
+        "type": "Button",
+        "id": "backBtn",
+        "label": "← Back",
+        "class": "inline-flex items-center justify-center rounded-lg border border-[#ddd] bg-white px-4 py-2 text-sm font-medium text-[#111] hover:border-[var(--accent)] transition-colors",
+        "actions": { "onClick": { "type": "back" } }
+      },
+      {
+        "type": "SeatGrid",
+        "id": "seatGrid",
+        "eventId": "evt-2026-arena",
+        "currency": "USD",
+        "sections": [
+          { "id": "sec-a", "name": "Section A (Front)", "price": 120.0, "available": 42, "rows": ["A", "B", "C"] },
+          { "id": "sec-b", "name": "Section B (Middle)", "price": 85.0, "available": 120, "rows": ["D", "E", "F", "G"] },
+          { "id": "sec-c", "name": "Section C (Rear)", "price": 55.0, "available": 200, "rows": ["H", "J", "K"] }
+        ],
+        "validation": {
+          "minSeats": 1,
+          "maxSeats": 8,
+          "rules": [
+            { "field": "seatId", "required": true, "message": "You must select at least one seat." },
+            { "field": "section", "required": true, "message": "A section must be chosen." },
+            { "field": "quantity", "type": "number", "min": 1, "max": 8, "message": "You can select between 1 and 8 seats." }
+          ]
+        },
+        "actions": {
+          "onSelect": {
+            "type": "validateAndReserve",
+            "endpoint": "/api/client/action/submit",
+            "action": "SEAT_SELECTION",
+            "success": {
+              "type": "navigate",
+              "target": "checkout",
+              "endpoint": "/api/client/page/merchant_1/checkout",
+              "message": "Seats reserved! Proceeding to checkout."
+            },
+            "error": {
+              "type": "alert",
+              "message": "Unable to reserve the selected seats. Please try again."
+            }
+          }
+        }
+      },
+      {
+        "type": "Button",
+        "id": "continueBtn",
+        "label": "Continue to Checkout",
+        "class": "inline-flex items-center justify-center rounded-lg bg-[var(--black)] text-white px-4 py-2 text-sm font-semibold border-0 hover:brightness-110 transition-colors",
+        "actions": {
+          "onClick": {
+            "type": "navigate",
+            "target": "checkout",
+            "endpoint": "/api/client/page/merchant_1/checkout"
+          }
+        }
+      }
+    ]
+  }
+}

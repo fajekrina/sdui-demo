@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SDUI Component Visual Builder — Puck + MUI</title>
+  <link rel="stylesheet" href="tailwind.css" />
+  <!-- Puck CSS: @puckeditor/core@0.20.2/puck.css 500 on esm.sh — use verified @measured/puck + unpkg fallback -->
+  <link rel="stylesheet" href="https://esm.sh/@measured/puck@0.20.2/puck.css" onerror="this.remove()" />
+  <link rel="stylesheet" href="https://unpkg.com/@measured/puck@0.20.2/puck.css" onerror="this.remove()" />
+  <script> // suppress 500 CSS error if @puckeditor/core CSS was cached elsewhere
+    window.addEventListener('error', e=>{
+      if(e.target.tagName==='LINK' && e.target.href.includes('puck.css')) {
+        console.warn('[Puck] CSS failed, fallback active:', e.target.href);
+        e.preventDefault();
+      }
+    }, true);
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script async src="https://unpkg.com/es-module-shims@1.8.2/dist/es-module-shims.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.2.0",
+      "react-dom": "https://esm.sh/react-dom@19.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@19.2.0/client",
+      "react/jsx-runtime": "https://esm.sh/react@19.2.0/jsx-runtime",
+      "htm": "https://esm.sh/htm@3.1.1?external=react",
+       "@measured/puck": "https://esm.sh/@measured/puck@0.20.2?external=react,react-dom&bundle",
+       "@puckeditor/core": "https://esm.sh/@puckeditor/core@0.20.2?external=react,react-dom&bundle",
+      "@mui/material": "https://esm.sh/@mui/material@5.15.20?external=react,react-dom,@emotion/react,@emotion/styled,@emotion/cache",
+      "@mui/icons-material": "https://esm.sh/@mui/icons-material@5.15.0?external=react,@mui/material,@emotion/react,@emotion/styled",
+      "@emotion/react": "https://esm.sh/@emotion/react@11.11.4?external=react",
+      "@emotion/styled": "https://esm.sh/@emotion/styled@11.11.0?external=react,@emotion/react",
+      "@emotion/cache": "https://esm.sh/@emotion/cache@11.11.0?external=react"
+    }
+  }
+  </script>
+  <style>
+    :root{ --bg:#0f1220; --panel:#1a1f35; --panel-2:#232a45; --accent:#6c8cff; --accent-2:#3ad29f; --border:#2c3354; --text:#e6e9f5; --muted:#9aa3c7; }
+    html,body{margin:0;height:100%;font-family:Inter,Segoe UI,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    /* Puck overrides to match dark theme */
+    .Puck{ --puck-color-background:#0f1220; --puck-color-border:#2c3354; }
+    /* JSON panel */
+    .json-pre{font-family:JetBrains Mono,Consolas,monospace;font-size:12.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+    /* scrollbar */
+    ::-webkit-scrollbar{width:8px;height:8px}
+    ::-webkit-scrollbar-thumb{background:#2c3354;border-radius:999px}
+  </style>
+</head>
+<body>
+  <!-- Top bar (MUI AppBar will be rendered by React, this is fallback) -->
+  <div id="root"></div>
+
+  <script type="module">
+    import React, { useState, useEffect, useMemo } from "react";
+    import { createRoot } from "react-dom/client";
+    import htm from "htm";
+    // New package name is @puckeditor/core (https://github.com/puckeditor/puck), alias to old @measured/puck for compatibility
+    import { Puck } from "@measured/puck";
+    import { ThemeProvider, createTheme, CssBaseline, Box, AppBar, Toolbar, Typography, Button, TextField, Select, MenuItem, Drawer, IconButton, Chip, Stack, Card, CardContent, Divider, Tooltip, Alert, Snackbar, FormControl, InputLabel, Autocomplete } from "@mui/material";
+    import createCache from "@emotion/cache";
+    import { CacheProvider } from "@emotion/react";
+
+    const html = htm.bind(React.createElement);
+
+    // Emotion cache to avoid MUI insertion issues
+    const emotionCache = createCache({ key: "mui", prepend: true });
+
+    const muiTheme = createTheme({
+      palette: {
+        mode: "dark",
+        primary: { main: "#6c8cff" },
+        secondary: { main: "#3ad29f" },
+        background: { default: "#0f1220", paper: "#1a1f35" },
+        text: { primary: "#e6e9f5", secondary: "#9aa3c7" }
+      },
+      typography: { fontFamily: "Inter, Segoe UI, system-ui, sans-serif", button: { textTransform: "none", fontWeight: 600 } },
+      components: {
+        MuiAppBar: { styleOverrides: { root: { background: "#1a1f35", borderBottom: "1px solid #2c3354", boxShadow: "none" } } },
+        MuiDrawer: { styleOverrides: { paper: { background: "#1a1f35", borderLeft: "1px solid #2c3354" } } },
+        MuiCard: { styleOverrides: { root: { background: "#232a45", border: "1px solid #2c3354" } } }
+      }
+    });
+
+    // ---------- helpers: SDUI <-> Puck conversion (keeps JSON view canonical) ----------
+    // Official Puck pattern: https://puckeditor.com/docs/integrating-puck/component-configuration
+    // We keep SDUI JSON flat for backwards compat with app.js, but group styles in Puck UI via `style` object.
+    // Array props (lines, sections, fields, etc.) use Puck `array` fields directly — no JSON string textarea needed.
+    const STYLE_KEYS = ["height","width","background","textColor","fontSize","fontWeight","fontFamily","padding","margin","border","borderRadius","textAlign"];
+
+    // Slot helpers — Grid/Flex/Hero use `slot` type (DropZone). Recursively convert nested SDUI components.
+    const SLOT_KEYS = ["items","content"];
+    function puckSlotToSdui(slotData) {
+      if (!Array.isArray(slotData)) return [];
+      return slotData.map(item => {
+        // Puck slot item: {type, props} — props may contain nested slots
+        const comp = { type: item.type, id: item.props?.id };
+        for (const [k,v] of Object.entries(item.props||{})) {
+          if (k==="id"||k==="type"||k==="style"||k==="advanced"||k==="_raw") continue;
+          // nested slot?
+          if (SLOT_KEYS.includes(k) && Array.isArray(v)) {
+            comp[k] = puckSlotToSdui(v);
+          } else if (k==="style" || k==="advanced") {
+            // handled separately below
+          } else {
+            comp[k]=v;
+          }
+        }
+        if (item.props?.style) {
+          for (const sk of STYLE_KEYS) if (item.props.style[sk]) comp[sk]=item.props.style[sk];
+          if (Object.keys(item.props.style).length) comp.style={...item.props.style};
+        }
+        if (item.props?.advanced?.className) comp.className=item.props.advanced.className;
+        if (item.props?.advanced?.className) comp.class=item.props.advanced.className;
+        if (item.props?.advanced?.customCssJson) comp.sxJson=item.props.advanced.customCssJson;
+        // nested slots inside props
+        SLOT_KEYS.forEach(sk=>{
+          if (Array.isArray(item.props?.[sk]) && item.props[sk].length && typeof item.props[sk][0]==="object" && "type" in item.props[sk][0]) {
+            comp[sk]=puckSlotToSdui(item.props[sk]);
+          }
+        });
+        return comp;
+      });
+    }
+    function sduiToPuckSlot(components) {
+      if (!Array.isArray(components)) return [];
+      return components.map((c, idx)=>{
+        const props={id: c.id || `${c.type}_${idx}_${Date.now()}`};
+        for (const [k,v] of Object.entries(c)) {
+          if (k==="type"||k==="id"||k==="items"||k==="content") continue;
+          if (STYLE_KEYS.includes(k)) continue;
+          if (k==="class"||k==="className"||k==="sxJson") continue;
+          if (v===null || typeof v==="string"||typeof v==="number"||typeof v==="boolean") props[k]=v;
+          else if (!SLOT_KEYS.includes(k)) props[k]=v;
+        }
+        const style={}; STYLE_KEYS.forEach(k=>{ if(c[k]!=null && c[k]!=="") style[k]=c[k]; });
+        if(c.style) Object.assign(style,c.style);
+        props.style=style;
+        props.advanced={className:c.className||c.class||"", customCssJson:c.sxJson||""};
+        // handle SDUI-specific arrays for backward compat
+        if(c.lines) props.lines=c.lines;
+        if(c.sections) props.sections=c.sections;
+        if(c.fields) props.fields=c.fields;
+        if(c.methods) props.methods=c.methods;
+        if(c.seats) props.seats=c.seats;
+        // nested slot
+        SLOT_KEYS.forEach(sk=>{
+          if (Array.isArray(c[sk]) && c[sk].length && c[sk][0] && typeof c[sk][0]==="object" && "type" in c[sk][0]) {
+            props[sk]=sduiToPuckSlot(c[sk]);
+          } else if (Array.isArray(c[sk])) {
+            // legacy flat arrays already handled
+          }
+        });
+        return {type:c.type, props};
+      });
+    }
+
+
+    function layoutToPuck(layout, idBase="puck") {
+      if (!layout) return { root: { props: { title: "New Screen", subtitle: "", type: "Screen", style: {}, advanced: { className: "", customCssJson: "" } } }, content: [], zones: {} };
+      const rootStyle = {};
+      STYLE_KEYS.forEach(k => { if (layout[k]) rootStyle[k] = layout[k]; });
+      // If top-level components include nested slot items (Grid/Flex/Hero), use recursive helper
+      const hasNested = (layout.components||[]).some(c=> SLOT_KEYS.some(sk=> Array.isArray(c[sk]) && c[sk].length && c[sk][0] && typeof c[sk][0]==="object" && "type" in c[sk][0]));
+      if (hasNested) {
+        const content = sduiToPuckSlot(layout.components || []);
+        return { root: { props: { title: layout.title||"New Screen", subtitle: layout.subtitle||"", type: layout.type||"Screen", style: rootStyle, advanced: { className: layout.className||layout.class||"", customCssJson: layout.sxJson||"" } } }, content, zones:{} };
+      }
+      const content = (layout.components || []).map((c, idx) => {
+        const props = { id: c.id || `${c.type}_${idx}_${Date.now()}` };
+        // primitive props (title, label, etc.)
+        for (const [k,v] of Object.entries(c)) {
+          if (k==="type"||k==="id") continue;
+          if (STYLE_KEYS.includes(k)) continue; // grouped into style
+          if (k==="class"||k==="className") continue; // -> advanced.className
+          if (k==="sxJson") continue; // -> advanced.customCssJson
+          if (v===null || typeof v==="string"||typeof v==="number"||typeof v==="boolean") props[k]=v;
+          else props[k]=v; // arrays/objects stored natively via Puck array/object fields
+        }
+        // group flat style keys into style object for Puck UI (fixes clutter)
+        const style = {};
+        STYLE_KEYS.forEach(k => { if (c[k]!=null && c[k]!=="") style[k]=c[k]; });
+        // also support new c.style object (if already migrated)
+        if (c.style && typeof c.style==="object") Object.assign(style, c.style);
+        props.style = style;
+        props.advanced = {
+          className: c.className || c.class || "",
+          customCssJson: c.sxJson || (c.advanced?.customCssJson) || ""
+        };
+        // ensure array props have defaults for Puck array fields
+        if (c.lines && !props.lines) props.lines = c.lines;
+        if (c.sections && !props.sections) props.sections = c.sections;
+        if (c.fields && !props.fields) props.fields = c.fields;
+        if (c.methods && !props.methods) props.methods = c.methods;
+        if (c.seats && !props.seats) props.seats = c.seats;
+        // legacy Json-string fields -> migrate to arrays for new schema
+        ["linesJson","sectionsJson","fieldsJson","methodsJson","seatsJson"].forEach(jsonKey => {
+          if (c[jsonKey] && !props[jsonKey.replace("Json","")]) {
+            try { props[jsonKey.replace("Json","")] = JSON.parse(c[jsonKey]); } catch(e){}
+          }
+        });
+        props._raw = c;
+        return { type: c.type, props };
+      });
+      return {
+        root: { props: {
+          title: layout.title || "New Screen",
+          subtitle: layout.subtitle || "",
+          type: layout.type || "Screen",
+          style: rootStyle,
+          advanced: { className: layout.className || layout.class || "", customCssJson: layout.sxJson || "" }
+        } },
+        content,
+        zones: {}
+      };
+    }
+
+    function puckToLayout(data) {
+      const root = data.root?.props || {};
+      const layout = { type: root.type || "Screen", title: root.title, subtitle: root.subtitle, components: [] };
+      // root style: flatten back for SDUI (keeps app.js compatible)
+      if (root.style) Object.assign(layout, root.style);
+      if (root.advanced?.className) layout.className = root.advanced.className;
+      if (root.advanced?.customCssJson) layout.sxJson = root.advanced.customCssJson;
+      layout.components = (data.content || []).map(item => {
+        const p = item.props || {};
+        const comp = { type: item.type, id: p.id };
+        // copy primitive props
+        for (const [k,v] of Object.entries(p)) {
+          if (k==="id"||k==="type"||k==="style"||k==="advanced"||k==="_raw") continue;
+          // skip Puck internal array/object helpers that are stored natively
+          comp[k]=v;
+        }
+        // flatten style object back to top-level flat keys (backwards compat with app.js: buildStyleSx, puck-client.js)
+        if (p.style && typeof p.style==="object") {
+          for (const k of STYLE_KEYS) if (p.style[k]!=null && p.style[k]!=="") comp[k]=p.style[k];
+          // also keep structured style for future
+          if (Object.keys(p.style).length) comp.style = { ...p.style };
+        }
+        if (p.advanced) {
+          if (p.advanced.className) comp.className = p.advanced.className;
+          if (p.advanced.className) comp.class = p.advanced.className; // legacy alias
+          if (p.advanced.customCssJson) comp.sxJson = p.advanced.customCssJson;
+        }
+        // arrays already correct via Puck array fields
+        delete comp._raw;
+        return comp;
+      });
+      return layout;
+    }
+
+    // Legacy helpers kept for one-way migration from old JSON-string fields
+    function flattenForPuck(c) {
+      const out = {};
+      for (const [k,v] of Object.entries(c)) {
+        if (k === "type" || k === "id") continue;
+        if (v === null || typeof v === "string" || typeof v === "number" || typeof v === "boolean") out[k] = v;
+        else out[`${k}Json`] = JSON.stringify(v, null, 2);
+      }
+      return out;
+    }
+    function unflattenFromPuck(props) {
+      const out = { type: props.type, id: props.id };
+      for (const [k,v] of Object.entries(props)) {
+        if (k === "id" || k === "type" || k === "_raw") continue;
+        if (k.endsWith("Json")) {
+          const orig = k.slice(0, -4);
+          try { out[orig] = v ? JSON.parse(v) : undefined; } catch(e){ out[orig] = v; }
+        } else {
+          out[k] = v;
+        }
+      }
+      return out;
+    }
+
+    // ---------- Global selection state (used by component renders) ----------
+    let _setSelected = null;
+    let _selectedId = null;
+    function setSelectedComponent(comp) {
+      if (_setSelected) _setSelected(comp);
+    }
+    // wrapper to add click-to-show-json
+    function Selectable({ id, type, children, props }) {
+      const isSelected = _selectedId === id;
+      return html`
+        <${Box}
+          onClick=${(e)=>{ e.stopPropagation(); setSelectedComponent({type, id, ...props}); }}
+          sx=${{
+            position:"relative",
+            border: isSelected ? "2px solid #6c8cff" : "1px solid transparent",
+            borderRadius: "10px",
+            cursor:"pointer",
+            transition: "border .15s",
+            "&:hover": { borderColor: isSelected ? "#6c8cff" : "#3a3f5c" }
+          }}
+        >
+          ${isSelected ? html`<${Chip} label=${type} size="small" sx=${{position:"absolute", top:-10, right:8, height:20, fontSize:11, bgcolor:"#6c8cff", color:"#0b0e1a", fontWeight:700}} />` : null}
+          ${children}
+        </Box>
+      `;
+    }
+
+    // ---------- helpers: style editing (fixed per https://github.com/puckeditor/puck) ----------
+    // Before: 13 loose select fields polluted every component's right panel.
+    // Fix: group into single `style` object field + `advanced` object — clean, collapsible, type-safe.
+    // Keeps JSON view canonical: SDUI still stores flat keys (height, background…) for app.js compat,
+    // but Puck UI now edits via `props.style` + `props.advanced` (object fields).
+    function parseSxJson(jsonStr) {
+      if (!jsonStr) return {};
+      try { const o = JSON.parse(jsonStr); return o && typeof o==="object" ? o : {}; } catch(e){ return {}; }
+    }
+    function getStyleProps(props) {
+      // merge legacy flat keys + new style object + advanced.customCssJson
+      const styleObj = (props.style && typeof props.style==="object") ? props.style : {};
+      const merged = { ...styleObj };
+      STYLE_KEYS.forEach(k => { if (props[k]!=null && props[k]!=="") merged[k]=props[k]; });
+      if (props.color && !merged.textColor) merged.textColor = props.color;
+      return merged;
+    }
+    function buildStyleSx(props, defaults={}) {
+      const sx = { ...defaults };
+      const s = getStyleProps(props);
+      if (s.height) sx.height = s.height;
+      if (s.width) sx.width = s.width;
+      if (s.background) sx.backgroundColor = s.background;
+      if (s.padding) sx.padding = s.padding;
+      if (s.margin) sx.margin = s.margin;
+      if (s.borderRadius) sx.borderRadius = s.borderRadius;
+      if (s.border) sx.border = s.border;
+      if (s.fontSize) sx.fontSize = s.fontSize;
+      if (s.fontFamily) sx.fontFamily = s.fontFamily;
+      if (s.fontWeight) sx.fontWeight = s.fontWeight;
+      if (s.textColor) sx.color = s.textColor;
+      else if (props.color) sx.color = props.color;
+      if (s.textAlign) sx.textAlign = s.textAlign;
+      // advanced override (object field)
+      const advJson = props.advanced?.customCssJson ?? props.sxJson ?? "";
+      Object.assign(sx, parseSxJson(advJson));
+      Object.keys(sx).forEach(k=> sx[k]==="" && delete sx[k]);
+      return sx;
+    }
+    function getClassName(props) {
+      return props.advanced?.className ?? props.className ?? props.class ?? "";
+    }
+    // Puck-recommended: use `object` type to group style (see https://puckeditor.com/docs/integrating-puck/component-configuration)
+    const styleObjectField = {
+      type: "object",
+      label: "Style",
+      objectFields: {
+        height: { type: "select", label: "Height", options: [{label:"Default",value:""},{label:"Auto",value:"auto"},{label:"100%",value:"100%"},{label:"200px",value:"200px"},{label:"300px",value:"300px"},{label:"400px",value:"400px"},{label:"50vh",value:"50vh"}] },
+        width: { type: "select", label: "Width", options: [{label:"Default",value:""},{label:"Auto",value:"auto"},{label:"100%",value:"100%"},{label:"50%",value:"50%"},{label:"300px",value:"300px"},{label:"600px",value:"600px"}] },
+        background: { type: "select", label: "Background", options: [{label:"Default",value:""},{label:"White",value:"#ffffff"},{label:"Light Gray",value:"#f5f5f5"},{label:"Light Blue",value:"#f7f8ff"},{label:"Transparent",value:"transparent"},{label:"Primary #6c8cff",value:"#6c8cff"},{label:"Dark #0f1220",value:"#0f1220"},{label:"Success #f0fdf4",value:"#f0fdf4"}] },
+        textColor: { type: "select", label: "Text Color", options: [{label:"Default",value:""},{label:"Black #111",value:"#111"},{label:"Dark Gray #555",value:"#555"},{label:"Muted #888",value:"#888"},{label:"Primary #6c8cff",value:"#6c8cff"},{label:"White #fff",value:"#fff"},{label:"Red #d32f2f",value:"#d32f2f"}] },
+        fontSize: { type: "select", label: "Font Size", options: [{label:"Default",value:""},{label:"12px",value:"12px"},{label:"14px",value:"14px"},{label:"16px",value:"16px"},{label:"18px",value:"18px"},{label:"20px",value:"20px"},{label:"24px",value:"24px"},{label:"32px",value:"32px"}] },
+        fontWeight: { type: "select", label: "Font Weight", options: [{label:"Default",value:""},{label:"400 Normal",value:"400"},{label:"500 Medium",value:"500"},{label:"600 Semibold",value:"600"},{label:"700 Bold",value:"700"}] },
+        fontFamily: { type: "select", label: "Font Family", options: [{label:"Default (Inter)",value:""},{label:"Inter",value:"Inter, sans-serif"},{label:"Monospace",value:"monospace"},{label:"Serif",value:"serif"},{label:"JetBrains Mono",value:"JetBrains Mono, monospace"}] },
+        padding: { type: "select", label: "Padding", options: [{label:"Default",value:""},{label:"0",value:"0"},{label:"4px",value:"4px"},{label:"8px",value:"8px"},{label:"12px",value:"12px"},{label:"16px",value:"16px"},{label:"24px",value:"24px"},{label:"8px 16px",value:"8px 16px"}] },
+        margin: { type: "select", label: "Margin", options: [{label:"Default",value:""},{label:"0",value:"0"},{label:"4px",value:"4px"},{label:"8px",value:"8px"},{label:"12px",value:"12px"},{label:"16px",value:"16px"},{label:"24px",value:"24px"}] },
+        border: { type: "select", label: "Border", options: [{label:"Default",value:""},{label:"None",value:"none"},{label:"1px solid #ddd",value:"1px solid #ddd"},{label:"1px solid #bbb",value:"1px solid #bbb"},{label:"2px solid #6c8cff",value:"2px solid #6c8cff"},{label:"1px dashed #bbb",value:"1px dashed #bbb"}] },
+        borderRadius: { type: "select", label: "Border Radius", options: [{label:"Default",value:""},{label:"0",value:"0"},{label:"6px",value:"6px"},{label:"10px",value:"10px"},{label:"16px",value:"16px"},{label:"999px (pill)",value:"999px"}] },
+        textAlign: { type: "select", label: "Text Align", options: [{label:"Default",value:""},{label:"Left",value:"left"},{label:"Center",value:"center"},{label:"Right",value:"right"},{label:"Justify",value:"justify"}] },
+      }
+    };
+    const advancedField = {
+      type: "object",
+      label: "Advanced (Tailwind / CSS)",
+      objectFields: {
+        className: { type: "text", label: "Tailwind class (e.g. shadow-lg, rounded-xl)" },
+        customCssJson: { type: "textarea", label: "Custom CSS JSON (overrides Style, e.g. {\"opacity\":0.9})" }
+      }
+    };
+    const commonStyleFields = {
+      style: styleObjectField,
+      advanced: advancedField,
+    };
+    // Strict centralized field definition — https://github.com/puckeditor/puck#component-configuration
+    // Base config explicitly declares SAME fields for EVERY component (title, description, image) + unified style/advanced
+    // No component-specific overrides allowed — guarantees absolute uniformity per PUCK_UNIFIED_PROMPT.md
+    // Strict uniform fields — explicitly includes text, number, select per Puck core types (https://puckeditor.com/docs/api-reference/fields)
+    // Every component gets IDENTICAL structure: title(text), description(textarea), image(text), count(number), variant(select), style(object), advanced(object)
+    const baseStrictFields = {
+      title: { type:"text", label:"Title", contentEditable:true, placeholder:"Enter title" },
+      description: { type:"textarea", label:"Description", contentEditable:true, placeholder:"Enter description" },
+      image: { type:"text", label:"Image URL", placeholder:"https://..." },
+      count: { type:"number", label:"Order", min:0, placeholder:"0" },
+      variant: { type:"select", label:"Variant", options:[{label:"Default",value:"default"},{label:"Primary",value:"primary"},{label:"Secondary",value:"secondary"}] },
+      ...commonStyleFields
+    };
+    const unifiedEditPanelFields = baseStrictFields; // strict alias — every component gets identical fields
+    // Uniform layout wrapper — identical padding/spacing/label styles for every component's edit and canvas render
+    function UniformWrapper({id, type, props, children}) {
+      // identical padding/spacing/label styles for edit panel parity
+      const sx = buildStyleSx(props, { p:2, border:"1px solid #e5e7eb", borderRadius:"12px", bgcolor:"#ffffff" });
+      const cls = getClassName(props);
+      return html`<${Selectable} id=${id} type=${type} props=${props}><${Box} sx=${{...sx, p:2}} className=${cls}><${Box} sx=${{display:"flex", flexDirection:"column", gap:1}}>${children}</Box></Box></Selectable>`;
+    }
+    // Enforce wrapper for any render that needs identical label/spacing
+    function UniformEditWrapper({label, children}) {
+      return html`<${Box} sx=${{p:1.5, border:"1px dashed #e2e8f0", borderRadius:"8px", bgcolor:"#f8fafc"}}><${Typography} variant="caption" sx=${{fontWeight:700, color:"#475569", textTransform:"uppercase", letterSpacing:"0.05em", mb:1, display:"block"}}>${label}</Typography>${children}</Box>`;
+    }
+    function defineUniformComponent(label, specificFields, defaultProps, renderChildren) {
+      return {
+        label,
+        fields: { ...baseStrictFields },
+        defaultProps: { title:"Title", description:"Description", image:"", count:0, variant:"default", ...defaultProps, style:{}, advanced:{className:"", customCssJson:""} },
+        render: (props) => {
+          // fallback validation for missing props
+          if(props.title==null) console.warn(`[Puck][${label}] missing title, fallback ""`);
+          if(props.count==null) console.warn(`[Puck][${label}] missing count, fallback 0`);
+          return UniformWrapper({id:props.id, type:label, props, children: UniformEditWrapper({label, children: renderChildren(props)})});
+        }
+      };
+    }
+    // Validation mechanism — catches missing/misconfigured fields per Puck core field types, prevents edit panel errors
+    const PUCK_CORE_FIELD_TYPES = ["text","textarea","number","select","radio","array","slot","object"];
+    function validatePuckFields(config) {
+      const errors=[];
+      for(const [compName, comp] of Object.entries(config.components)){
+        if(!comp.fields || typeof comp.fields!=="object"){ errors.push(`${compName}: missing fields object`); continue; }
+        for(const [fieldName, field] of Object.entries(comp.fields)){
+          if(!field || typeof field!=="object"){ errors.push(`${compName}.${fieldName}: not an object`); continue; }
+          if(!PUCK_CORE_FIELD_TYPES.includes(field.type)){
+            errors.push(`${compName}.${fieldName}: invalid type "${field.type}" — must be ${PUCK_CORE_FIELD_TYPES.join(",")}, fallback to text`);
+            field.type="text"; // fallback
+          }
+          if((field.type==="select"||field.type==="radio") && !Array.isArray(field.options)){
+            errors.push(`${compName}.${fieldName}: ${field.type} missing options[], fallback to text`);
+            field.type="text";
+          }
+          if(field.type==="array" && !field.arrayFields){ errors.push(`${compName}.${fieldName}: array missing arrayFields`); }
+          if(field.type==="object" && !field.objectFields){ errors.push(`${compName}.${fieldName}: object missing objectFields`); }
+        }
+        // ensure identical structure — every component must have title/description/image/count/variant/style/advanced
+        for(const req of ["title","description","image","count","variant","style","advanced"]){
+          if(!(req in comp.fields)){ errors.push(`${compName}: missing required field "${req}" — injecting fallback`); comp.fields[req]=baseStrictFields[req]; }
+        }
+      }
+      if(errors.length){ console.warn("[Puck] field validation:", errors); } else { console.log("[Puck] field validation: all", Object.keys(config.components).length, "components uniform and Puck-core compatible"); }
+      return errors;
+    }
+    const rootStyleFields = {
+      style: {
+        type: "object",
+        label: "Page Style",
+        objectFields: {
+          background: { type: "select", label: "Background", options: [{label:"Default",value:""},{label:"White",value:"#ffffff"},{label:"Dark #0f1220",value:"#0f1220"},{label:"Light #f5f5f5",value:"#f5f5f5"}] },
+          padding: { type: "select", label: "Padding", options: [{label:"Default",value:""},{label:"0",value:"0"},{label:"12px",value:"12px"},{label:"24px",value:"24px"}] },
+          fontFamily: { type: "select", label: "Font Family", options: [{label:"Default (Inter)",value:""},{label:"Inter",value:"Inter, sans-serif"},{label:"Monospace",value:"monospace"}] }
+        }
+      },
+      advanced: advancedField,
+    };
+
+    // ---------- Puck config: components mapped to MUI (expanded to match https://github.com/puckeditor/puck) ----------
+    // Strict uniformity: every component uses baseStrictFields (title/description/image + style/advanced) — no unique fields
+    // Style handling: every component uses `style` object + `advanced` object (collapsible) — copies puck withLayout pattern
+    // Slots: Grid/Flex/Hero use Puck `slot` fields (DropZone) — nested components supported and serialized into SDUI JSON `items`/`content`
+    // JSON view (right drawer) remains canonical via layoutToPuck/puckToLayout with recursive slot handling
+    const spacingOptions = [
+      {label:"4px", value:"4px"}, {label:"8px", value:"8px"}, {label:"16px", value:"16px"},
+      {label:"24px", value:"24px"}, {label:"32px", value:"32px"}, {label:"48px", value:"48px"},
+      {label:"64px", value:"64px"}, {label:"128px", value:"128px"}
+    ];
+    const sizeOptions = [
+      {value:"xxxl", label:"XXXL"}, {value:"xxl", label:"XXL"}, {value:"xl", label:"XL"},
+      {value:"l", label:"L"}, {value:"m", label:"M"}, {value:"s", label:"S"}, {value:"xs", label:"XS"}
+    ];
+    const puckConfig = {
+      categories: {
+        layout: { title: "Layout", components: ["Grid","Flex","Space"] },
+        typography: { title: "Typography", components: ["Heading","Text"] },
+        actions: { title: "Actions", components: ["Button"] },
+        content: { title: "Content", components: ["Card","Hero","Divider","Image"] },
+        // sdui booking components removed per request — Puck editor now only Grid/Flex/Space/Heading/Text/Button/Card/Hero/Divider/Image
+      },
+      root: {
+        fields: {
+          title: { type: "text", label: "Page Title" },
+          subtitle: { type: "textarea", label: "Subtitle" },
+          type: { type: "select", label: "Layout Type", options: [{label:"Screen", value:"Screen"}, {label:"Modal", value:"Modal"}, {label:"Drawer", value:"Drawer"}] },
+          ...rootStyleFields
+        }
+      },
+      components: {
+        // ---- PUCKEDITOR LAYOUT BLOCKS ----
+        Grid: {
+          label: "Grid",
+          fields: {
+            numColumns: { type:"number", label:"Columns", min:1, max:12 },
+            gap: { type:"select", label:"Gap", options: spacingOptions },
+            items: { type:"slot" },
+            ...commonStyleFields
+          },
+          defaultProps: { numColumns: 3, gap:"24px", items: [], style: {}, advanced: { className:"", customCssJson:"" } },
+          render: ({numColumns, gap, items: Items, ...props}) => {
+            const sx = buildStyleSx(props, {});
+            const cls = getClassName(props);
+            return html`
+              <${Selectable} id=${props.id} type="Grid" props=${props}>
+                <${Box} sx=${{...sx, display:"grid", gridTemplateColumns: `repeat(${numColumns||3}, 1fr)`, gap: gap||"24px", p:1}} className=${cls}>
+                  <${Items} />
+                </Box>
+              </Selectable>
+            `;
+          }
+        },
+        Flex: {
+          label: "Flex",
+          fields: {
+            direction: { type:"radio", label:"Direction", options:[{label:"Row",value:"row"},{label:"Column",value:"column"}] },
+            justifyContent: { type:"radio", label:"Justify", options:[{label:"Start",value:"start"},{label:"Center",value:"center"},{label:"End",value:"end"}] },
+            gap: { type:"select", label:"Gap", options: spacingOptions },
+            wrap: { type:"radio", label:"Wrap", options:[{label:"Wrap",value:"wrap"},{label:"No wrap",value:"nowrap"}] },
+            items: { type:"slot" },
+            ...commonStyleFields
+          },
+          defaultProps: { direction:"row", justifyContent:"start", gap:"24px", wrap:"wrap", items: [], style: {}, advanced: { className:"", customCssJson:"" } },
+          render: ({direction, justifyContent, gap, wrap, items: Items, ...props}) => {
+            const sx = buildStyleSx(props, {});
+            const cls = getClassName(props);
+            return html`
+              <${Selectable} id=${props.id} type="Flex" props=${props}>
+                <${Box} sx=${{...sx, display:"flex", flexDirection: direction||"row", justifyContent: justifyContent||"start", gap: gap||"24px", flexWrap: wrap||"wrap", p:1}} className=${cls}>
+                  <${Items} />
+                </Box>
+              </Selectable>
+            `;
+          }
+        },
+        Space: {
+          label: "Space",
+          fields: {
+            size: { type:"select", label:"Size", options: spacingOptions },
+            direction: { type:"radio", label:"Direction", options:[{value:"vertical",label:"Vertical"},{value:"horizontal",label:"Horizontal"},{value:"",label:"Both"}] },
+            ...commonStyleFields
+          },
+          defaultProps: { size:"24px", direction:"", style: {}, advanced: { className:"", customCssJson:"" } },
+          inline: true,
+          render: ({size, direction, puck, ...props}) => {
+            const sx = buildStyleSx(props, {});
+            const cls = getClassName(props);
+            const isVert = direction==="vertical" || direction==="";
+            const isHorz = direction==="horizontal" || direction==="";
+            return html`
+              <${Box} ref=${puck.dragRef} sx=${{...sx, height: isVert ? (size||"24px") : "auto", width: isHorz ? (size||"24px") : "100%", display: direction==="horizontal" ? "inline-block" : "block"}} className=${cls} />
+            `;
+          }
+        },
+        // ---- PUCKEDITOR TYPOGRAPHY ----
+        Heading: {
+          label: "Heading",
+          fields: {
+            text: { type:"textarea", label:"Heading text", contentEditable:true },
+            size: { type:"select", label:"Size", options: sizeOptions },
+            level: { type:"select", label:"Level (h1-h6)", options:[{label:"Auto (size)",value:""},{label:"h1",value:"1"},{label:"h2",value:"2"},{label:"h3",value:"3"},{label:"h4",value:"4"},{label:"h5",value:"5"},{label:"h6",value:"6"}] },
+            align: { type:"radio", label:"Align", options:[{label:"Left",value:"left"},{label:"Center",value:"center"},{label:"Right",value:"right"}] },
+            ...commonStyleFields
+          },
+          defaultProps: { text:"Heading", size:"m", level:"", align:"left", style: {}, advanced: { className:"", customCssJson:"" } },
+          render: (props) => {
+            const align = props.align || "left";
+            const sx = buildStyleSx(props, {fontWeight:700, p:1});
+            // use Box span with explicit textAlign per Puck demo (Heading uses <span style="textAlign">), ensure style.textAlign doesn't override align
+            const sizeMap = {xxxl:"48px", xxl:"40px", xl:"32px", l:"24px", m:"20px", s:"16px", xs:"14px"};
+            const fontSize = sizeMap[props.size] || "20px";
+            const Tag = props.level ? `h${props.level}` : "div";
+            console.log("[Puck][Heading] align", align, "size", props.size, "level", props.level);
+            return html`
+            <${Selectable} id=${props.id} type="Heading" props=${props}>
+              <${Box} sx=${{...sx}} className=${getClassName(props)}>
+                <${Box} component=${Tag} sx=${{fontSize, textAlign: align, display:"block", width:"100%", m:0, p:0, color: sx.color || "#111", fontWeight: sx.fontWeight || 700}}>
+                  ${props.text}
+                </Box>
+              </Box>
+            </Selectable>
+          `}
+        },
+        Text: {
+          label: "Text",
+          fields: {
+            text: { type:"textarea", label:"Text", contentEditable:true },
+            size: { type:"select", label:"Size", options:[{label:"S (14px)",value:"s"},{label:"M (16px)",value:"m"},{label:"L (20px)",value:"l"}] },
+            align: { type:"radio", label:"Align", options:[{label:"Left",value:"left"},{label:"Center",value:"center"},{label:"Right",value:"right"}] },
+            color: { type:"radio", label:"Color", options:[{label:"Default",value:"default"},{label:"Muted",value:"muted"}] },
+            maxWidth: { type:"text", label:"Max width (e.g. 600px)" },
+            ...commonStyleFields
+          },
+          defaultProps: { text:"Lorem ipsum dolor sit amet.", size:"m", align:"left", color:"default", maxWidth:"", style: {}, advanced: { className:"", customCssJson:"" } },
+          render: (props) => {
+            const sx = buildStyleSx(props, {p:1});
+            const align = getStyleProps(props).textAlign || props.align || "left";
+            const color = props.color==="muted" ? "#6b7280" : "#111";
+            const fontSize = props.size==="s" ? "14px" : props.size==="l" ? "20px" : "16px";
+            return html`
+            <${Selectable} id=${props.id} type="Text" props=${props}>
+              <${Box} className=${getClassName(props)} sx=${{maxWidth: props.maxWidth||"none", mx: align==="center"?"auto": align==="right"?"0 0 0 auto":"0"}}>
+                <${Typography} sx=${{...sx, color, fontSize, textAlign: align, fontWeight:300, lineHeight:1.6}}>
+                  ${props.text}
+                </Typography>
+              </Box>
+            </Selectable>
+           `;
+          }
+        },
+        // ---- PUCKEDITOR ACTIONS ----
+        Button: {
+          label: "Button",
+          fields: {
+            label: { type:"text", label:"Label", contentEditable:true, placeholder:"Click me" },
+            href: { type:"text", label:"Href (link)" },
+            variant: { type:"radio", label:"Variant", options:[{label:"Primary",value:"primary"},{label:"Secondary",value:"secondary"}] },
+            size: { type:"select", label:"Size", options:[{label:"Small",value:"small"},{label:"Medium",value:"medium"},{label:"Large",value:"large"}] },
+            actionsJson: { type:"textarea", label:"SDUI actions (JSON) — onClick (Advanced)" },
+            ...commonStyleFields
+          },
+          defaultProps: { label:"Button", href:"#", variant:"primary", size:"medium", actionsJson: JSON.stringify({onClick:{type:"navigate", target:"checkout"}}, null, 2), style: {}, advanced: { className:"", customCssJson:"" } },
+          render: (props) => {
+            let actions = null;
+            try{ actions = props.actionsJson ? JSON.parse(props.actionsJson) : null; }catch(e){}
+            const btnSx = buildStyleSx(props, {borderRadius:"10px", fontWeight:600});
+            const boxSx = buildStyleSx(props, {p:1});
+            const isPrimary = (props.variant||"primary")==="primary";
+            return html`
+              <${Selectable} id=${props.id} type="Button" props=${props}>
+                <${Box} sx=${boxSx} className=${getClassName(props)}>
+                  <${Button} variant=${isPrimary?"contained":"outlined"} color="primary" size=${props.size||"medium"} href=${props.puck?.isEditing ? "#" : (props.href||"#")} tabIndex=${props.puck?.isEditing ? -1 : undefined} sx=${btnSx}>
+                    ${props.label || "Button"}
+                  </Button>
+                  ${actions ? html`<${Typography} variant="caption" sx=${{display:"block", mt:0.5, color:"#9aa3c7", fontFamily:"JetBrains Mono,monospace", fontSize:11}}>
+                    action: ${actions.onClick?.type || actions.type || "—"} ${actions.onClick?.target ? "→ "+actions.onClick.target : ""}
+                  </Typography>` : null}
+                </Box>
+              </Selectable>
+            `;
+          }
+        },
+        // ---- PUCKEDITOR CONTENT ----
+        Card: {
+          label: "Card",
+          fields: {
+            title: { type:"text", label:"Title", contentEditable:true },
+            description: { type:"textarea", label:"Description", contentEditable:true },
+            icon: { type:"select", label:"Icon", options:[{label:"None",value:""},{label:"⭐ Star",value:"star"},{label:"✨ Sparkles",value:"sparkles"},{label:"🎯 Target",value:"target"},{label:"🚀 Rocket",value:"rocket"},{label:"💡 Lightbulb",value:"lightbulb"}] },
+            mode: { type:"radio", label:"Mode", options:[{label:"Flat",value:"flat"},{label:"Card",value:"card"}] },
+            ...commonStyleFields
+          },
+          defaultProps: { title:"Card Title", description:"Card description goes here.", icon:"star", mode:"flat", style: {}, advanced: { className:"", customCssJson:"" } },
+          render: (props) => {
+            const iconMap = {star:"⭐", sparkles:"✨", target:"🎯", rocket:"🚀", lightbulb:"💡"};
+            const isFlat = (props.mode||"flat")==="flat";
+            const sx = buildStyleSx(props, {});
+            const cls = getClassName(props);
+            return html`
+              <${Selectable} id=${props.id} type="Card" props=${props}>
+                <${Card} elevation=${isFlat?0:2} sx=${{...sx, bgcolor: isFlat?"#f9fafb":"#fff", border: isFlat?"1px solid #e5e7eb":"1px solid #ddd", borderRadius:"12px"}} className=${cls}>
+                  <${CardContent} sx=${{p:2}}>
+                    ${props.icon ? html`<${Box} sx=${{fontSize:24, mb:1}}>${iconMap[props.icon]||props.icon}</Box>` : null}
+                    <${Typography} variant="h6" sx=${{fontWeight:700, color:"#111"}}>${props.title}</Typography>
+                    <${Typography} variant="body2" sx=${{color:"#555", mt:0.5}}>${props.description}</Typography>
+                  </CardContent>
+                </Card>
+              </Selectable>
+            `;
+          }
+        },
+        Hero: {
+          label: "Hero",
+          fields: {
+            title: { type:"text", label:"Title", contentEditable:true },
+            description: { type:"textarea", label:"Description", contentEditable:true },
+            align: { type:"radio", label:"Align", options:[{label:"Left",value:"left"},{label:"Center",value:"center"}] },
+            content: { type:"slot" },
+            ...commonStyleFields
+          },
+          defaultProps: { title:"Hero Title", description:"Hero description with call to action.", align:"center", content: [], style: {}, advanced: { className:"", customCssJson:"" } },
+          render: ({title, description, align, content: Content, ...props}) => {
+            const sx = buildStyleSx(props, {p:3, bgcolor:"#f8fafc", borderRadius:"12px", textAlign: align||"center"});
+            const cls = getClassName(props);
+            return html`
+              <${Selectable} id=${props.id} type="Hero" props=${{...props, title, description, align}}>
+                <${Box} sx=${sx} className=${cls}>
+                  <${Typography} variant="h4" sx=${{fontWeight:800, color:"#0f172a"}}>${title}</Typography>
+                  <${Typography} variant="body1" sx=${{color:"#475569", mt:1, maxWidth:600, mx: align==="center"?"auto":"0"}}>${description}</Typography>
+                  <${Box} sx=${{mt:2, display:"flex", gap:1, justifyContent: align==="center"?"center":"flex-start", flexWrap:"wrap"}}>
+                    <${Content} />
+                  </Box>
+                </Box>
+              </Selectable>
+            `;
+          }
+        },
+        Divider: {
+          label: "Divider",
+          fields: { label: { type:"text", label:"Label (optional)" }, ...commonStyleFields },
+          defaultProps: { label:"", style: {}, advanced: { className:"", customCssJson:"" } },
+          render: (props) => html`
+            <${Selectable} id=${props.id} type="Divider" props=${props}>
+              <${Divider} sx=${buildStyleSx(props, {my:2})} className=${getClassName(props)}>
+                ${props.label ? html`<${Chip} label=${props.label} size="small"/>` : null}
+              </Divider>
+            </Selectable>
+          `
+        },
+        Image: {
+          label: "Image",
+          fields: {
+            src: { type:"text", label:"Image URL" },
+            alt: { type:"text", label:"Alt text" },
+            caption: { type:"text", label:"Caption" },
+            ...commonStyleFields
+          },
+          defaultProps: { src:"https://picsum.photos/600/300", alt:"Demo image", caption:"", style: {}, advanced: { className:"", customCssJson:"" } },
+          render: (props) => {
+            const s = getStyleProps(props);
+            const adv = parseSxJson(props.advanced?.customCssJson || "");
+            return html`
+            <${Selectable} id=${props.id} type="Image" props=${props}>
+              <${Box} sx=${buildStyleSx(props, {p:1, textAlign:"center"})} className=${getClassName(props)}>
+                <img src=${props.src} alt=${props.alt} style=${Object.assign({maxWidth:"100%", borderRadius: "10px", border:"1px solid #ddd"}, s.height?{height:s.height}:{}, s.width?{width:s.width}:{}, adv)} className=${getClassName(props)} />
+                ${props.caption ? html`<${Typography} variant="caption" sx=${{display:"block", mt:0.5, color:"#555"}}>${props.caption}</Typography>` : null}
+              </Box>
+            </Selectable>
+          `
+          }
+        },
+      }
+    };
+
+
+    // Validate before enforce — fallback/validation per Puck core types
+    validatePuckFields(puckConfig);
+    if(puckConfig.root?.fields) { const rErrors=[]; for(const [k,f] of Object.entries(puckConfig.root.fields)){ if(!PUCK_CORE_FIELD_TYPES.includes(f.type) && f.type!=="object") rErrors.push(`root.${k}: invalid`); } if(rErrors.length) console.warn("[Puck] root validation", rErrors); }
+    // Enforce uniform wrapper + ensure style/advanced present for every component, but keep Puck repo specific fields
+    // Heading stays text/size/level/align per https://github.com/puckeditor/puck/blob/main/apps/demo/config/blocks/Heading/index.tsx (not title/description/image)
+    Object.keys(puckConfig.components).forEach(k => {
+      const comp = puckConfig.components[k];
+      // keep original specific fields (e.g., Heading: text,size,level,align) and ensure uniform style/advanced via withLayout pattern
+      if(!comp.fields.style) comp.fields.style = baseStrictFields.style;
+      if(!comp.fields.advanced) comp.fields.advanced = baseStrictFields.advanced;
+      const origRender = comp.render;
+      comp.render = (props) => {
+        try { return origRender(props); } catch(e) { console.warn("[Puck] uniform render fallback", k, e); return html`<${UniformWrapper} id=${props.id} type=${k} props=${props}><${Typography}>${props.title||props.text||k}</Typography><${Typography} variant="body2">${props.description||props.text||""}</Typography>${props.image||props.src ? html`<img src=${props.image||props.src} style=${{maxWidth:"100%", borderRadius:"8px", marginTop:"8px"}} />` : null}</Box></Selectable>`; }
+      };
+    });
+    console.log("[Puck] enforced uniform wrapper for", Object.keys(puckConfig.components).length, "components (Heading keeps text/size/level/align per Puck repo):", Object.keys(puckConfig.components).join(", "));
+
+        function App(){
+      const [merchantId, setMerchantId] = useState("merchant_1");
+      const [pageKey, setPageKey] = useState("");
+      const [pages, setPages] = useState([]);
+      const apiBase = "/api/puckmui"; // puck-builder is PuckMUI only → data/puckmui/pages
+      const [puckData, setPuckData] = useState({ root:{props:{title:"New Screen", subtitle:"Welcome", type:"Screen"}}, content:[], zones:{} });
+      const [selected, setSelected] = useState(null);
+      const [msg, setMsg] = useState({text:"", ok:true});
+      const [pageMeta, setPageMeta] = useState({status:"DRAFT", version:1});
+      const [jsonCopied, setJsonCopied] = useState(false);
+      const [jsonOpen, setJsonOpen] = useState(true);
+
+      // bridge for selectable
+      _setSelected = setSelected;
+      useEffect(()=>{ _selectedId = selected?.id || null; }, [selected]);
+      useEffect(()=>{ console.log("[Puck] puckData updated", puckData.content?.length, "root", puckData.root?.props?.title); }, [puckData]);
+
+      const showMsg = (text, ok=true) => { setMsg({text, ok}); setTimeout(()=> setMsg({text:"", ok:true}), 4000); };
+
+      const api = async (path, opts={}) => {
+        const res = await fetch(path, opts);
+        let body=null;
+        try{ body= await res.json(); }catch(e){}
+        return {res, body};
+      };
+
+      const loadPages = async () => {
+        const mid = merchantId.trim() || "merchant_1";
+        const url = `${apiBase}/merchant/pages/${mid}`;
+        console.log("[Puck] loadPages", url);
+        const {res, body} = await api(url);
+        console.log("[Puck] loadPages response", res.status, body);
+        if(!res.ok){ console.error("[Puck] loadPages failed", res.status, body); showMsg(`Failed to load PuckMUI pages: `+ (body?.error||res.status) + ` — is backend running? Run: ./gradlew bootRun and Ctrl+F5`, false); return; }
+        const pagesList = body.pages||[];
+        console.log("[Puck] pages", pagesList);
+        setPages(pagesList);
+        if(pagesList.length===0) {
+          showMsg(`No PuckMUI pages for merchant '${mid}' — check data/puckmui/pages/${mid}/ and restart backend`, false);
+        } else {
+          showMsg(`Loaded ${body.count||pagesList.length} PuckMUI pages: ${pagesList.join(", ")} — select Page dropdown to open`);
+          // no auto-open — stay blank until user picks (per request: no selected page on refresh)
+        }
+      };
+      useEffect(()=>{ loadPages(); }, []);
+
+      const openPage = async (key) => {
+        if(!key) return;
+        console.log("[Puck] openPage called with", JSON.stringify(key));
+        const mid = merchantId.trim() || "merchant_1";
+        const url = `${apiBase}/merchant/pages/${mid}/${key}`;
+        console.log("[Puck] openPage fetch", url);
+        const {res, body} = await api(url);
+        console.log("[Puck] openPage response", res.status, body?.layout ? `layout components=${body.layout.components?.length} pageKey=${body.pageKey} title=${body.layout?.title}` : body);
+        if(!res.ok){ showMsg("Failed to open: "+ (body?.error||res.status), false); return; }
+        if(body.pageKey && body.pageKey !== key) console.warn("[Puck] MISMATCH requested", key, "got", body.pageKey);
+        // set pageKey + data together so Puck key/data stay in sync (fixes off-by-one blank→small→100)
+        setPageKey(key);
+        setPageMeta({status: body.status, version: body.version, pageId: body.pageId});
+        const pd = layoutToPuck(body.layout);
+        console.log("[Puck] layoutToPuck", pd.content?.length, "items", pd.root?.props);
+        setPuckData(pd);
+        setSelected(null);
+        showMsg(`Opened ${key} (v${body.version}) — ${body.layout?.components?.length||0} components`);
+      };
+
+      const handleNew = () => {
+        const key = prompt("New page key (e.g. my_page):");
+        if(!key) return;
+        const k = key.trim();
+        setPageKey(k);
+        setPageMeta({status:"DRAFT", version:1});
+        setPuckData({ root:{props:{title:"New Screen", subtitle:"New page built with Puck + MUI", type:"Screen"}}, content:[
+          {type:"Heading", props:{id:"hd_"+Date.now(), text:"Welcome to "+k, variant:"h4", align:"left", color:"#111"}},
+          {type:"Text", props:{id:"tx_"+Date.now(), text:"Drag components from the left palette. Click any component to see its JSON on the right.", variant:"body1", align:"left"}},
+          {type:"Button", props:{id:"btn_"+Date.now(), label:"Continue", variant:"contained", color:"primary", size:"medium", actionsJson: JSON.stringify({onClick:{type:"navigate", target:"checkout"}}, null,2)}}
+        ], zones:{} });
+        setSelected(null);
+        showMsg("Created new page draft: "+k);
+      };
+
+      const currentLayout = useMemo(()=> puckToLayout(puckData), [puckData]);
+      const selectedJson = useMemo(()=> selected ? JSON.stringify(selected, null, 2) : JSON.stringify({pageKey, merchantId, layout: currentLayout, status: pageMeta.status, version: pageMeta.version}, null, 2), [selected, currentLayout, pageKey, merchantId, pageMeta]);
+      // expose for console debug: window._puck.openPage('gallery_small')
+      useEffect(()=>{ window._puck = { openPage, loadPages, getPuckData: ()=>puckData, getPages: ()=>pages, getPageKey: ()=>pageKey }; console.log("[Puck] exposed window._puck", Object.keys(window._puck)); }, [puckData, pages, pageKey]);
+
+      const save = async () => {
+        if(!pageKey){ showMsg("Enter page key first", false); return; }
+        const mid = merchantId.trim() || "merchant_1";
+        const payload = { pageId: pageMeta.pageId || `${mid}-${pageKey}`, pageKey, merchantId: mid, status: pageMeta.status || "DRAFT", layout: currentLayout };
+        const {res, body} = await api(`${apiBase}/merchant/pages/${mid}/${pageKey}`, {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(payload)});
+        if(!res.ok){ showMsg("Save failed: "+ (body?.error||res.status), false); return; }
+        setPageMeta({status: body.page?.status, version: body.page?.version, pageId: body.page?.pageId});
+        showMsg(`Saved ${pageKey} (v${body.page?.version})`);
+        loadPages();
+      };
+      const publish = async () => {
+        if(!pageKey){ showMsg("Open a page first", false); return; }
+        await save();
+        const mid = merchantId.trim() || "merchant_1";
+        const {res, body} = await api(`${apiBase}/merchant/pages/${mid}/${pageKey}/publish`, {method:"POST"});
+        if(!res.ok){ showMsg("Publish failed: "+ (body?.error||res.status), false); return; }
+        setPageMeta({status: body.page?.status, version: body.page?.version, pageId: body.page?.pageId});
+        showMsg(`Published ${pageKey}`);
+      };
+
+      const handlePuckChange = (data) => {
+        setPuckData(data);
+        if(selected){
+          const found = data.content.find(c=> c.props.id === selected.id);
+          if(found){
+            const tmpLayout = puckToLayout(data);
+            const comp = tmpLayout.components.find(c=> c.id === selected.id);
+            if (comp) {
+              setSelected(comp);
+              _selectedId = found.props.id;
+            } else {
+              const updated = unflattenFromPuck({type:found.type, ...found.props});
+              setSelected(prev => ({...updated, type: found.type}));
+              _selectedId = found.props.id;
+            }
+          }
+        }
+      };
+
+      // close drawer when clicking outside? handled by MUI
+
+      return html`
+        <${CacheProvider} value=${emotionCache}>
+        <${ThemeProvider} theme=${muiTheme}>
+          <${CssBaseline}/>
+          <${AppBar} position="sticky" elevation=${0}>
+            <${Toolbar} sx=${{gap:1.5, flexWrap:"wrap", py:1}}>
+              <${Typography} variant="h6" sx=${{fontWeight:800, letterSpacing:"-0.02em", mr:1}}>
+                🎨 SDUI Component Builder
+              </Typography>
+              <${Chip} label="Puck + MUI" size="small" sx=${{bgcolor:"#232a45", color:"#9aa3c7", border:"1px solid #2c3354", fontWeight:600}}/>
+              <${Box} sx=${{flex:1, minWidth:12}}/>
+              <${Button} size="small" variant="outlined" href="index.html" sx=${{borderColor:"#2c3354", color:"#e6e9f5"}}>JSON Builder</Button>
+              <${Button} size="small" variant="outlined" href="puck-builder.html" sx=${{borderColor:"#6c8cff", color:"#6c8cff"}}>Puck Builder</Button>
+            </Toolbar>
+            <${Toolbar} sx=${{gap:1.2, flexWrap:"wrap", py:1, borderTop:"1px solid #2c3354", bgcolor:"#0f1220"}}>
+              <${TextField}
+                label="Merchant"
+                size="small"
+                value=${merchantId}
+                onChange=${e=> setMerchantId(e.target.value)}
+                sx=${{minWidth:160, "& .MuiInputBase-root":{bgcolor:"#232a45"}}}
+              />
+              <${Button} variant="contained" size="small" onClick=${loadPages}>Load</Button>
+              <${Chip} label="data/puckmui/pages" size="small" sx=${{bgcolor:"#0f1220", color:"#9aa3c7", border:"1px solid #2c3354", display:{xs:"none", md:"flex"}}} />
+              <${FormControl} size="small" sx=${{minWidth:220, "& .MuiInputBase-root":{bgcolor:"#232a45"}}}>
+                <${InputLabel} id="page-select-label">Page</InputLabel>
+                <${Select}
+                  labelId="page-select-label"
+                  label="Page"
+                  value=${pageKey}
+                  onChange=${e=> { console.log("[Puck] Select change", e.target.value); openPage(e.target.value); }}
+                >
+                  ${pages.length===0 ? html`<${MenuItem} value="" disabled>No pages</MenuItem>` : pages.map(k=> html`<${MenuItem} key=${k} value=${k}>${k}</MenuItem>`)}
+                </Select>
+              </FormControl>
+              <${Button} variant="outlined" size="small" onClick=${handleNew} sx=${{borderColor:"#2c3354"}}>+ New Page</Button>
+              <${Box} sx=${{flex:1}}/>
+              <${Button} variant="contained" color="primary" size="small" onClick=${save}>Save</Button>
+              <${Button} variant="contained" color="success" size="small" onClick=${publish} sx=${{color:"#06281d"}}>Publish</Button>
+              ${msg.text ? html`<${Alert} severity=${msg.ok ? "success" : "error"} sx=${{py:0, px:1, fontSize:13, alignItems:"center"}}>${msg.text}</Alert>` : null}
+            </Toolbar>
+          </AppBar>
+
+          <${Box} sx=${{display:"flex", height:"calc(100vh - 128px)", overflow:"hidden", bgcolor:"#0f1220"}}>
+            <!-- Puck canvas takes flex 1 -->
+            <${Box} sx=${{flex:1, overflow:"auto", position:"relative", borderRight:"1px solid #2c3354", bgcolor:"#0f1220", minWidth:0}}>
+                <${Box} sx=${{p:1, bgcolor:"#1a1f35", borderBottom:"1px solid #2c3354", display:"flex", alignItems:"center", gap:1}}>
+                <${Typography} variant="caption" sx=${{color:"#9aa3c7", fontWeight:700, letterSpacing:"0.08em", textTransform:"uppercase"}}>Canvas — drag & drop</Typography>
+                <${Chip} label=${pageKey || "no page selected"} size="small" sx=${{ml:1, bgcolor:"#0f1220", color:"#9aa3c7", border:"1px solid #2c3354"}}/>
+                <${Box} sx=${{flex:1}}/>
+                <${Typography} variant="caption" sx=${{color:"#9aa3c7", display:{xs:"none", lg:"block"}}}>Click component → edit style on Puck right panel</Typography>
+                <${Button} size="small" variant="outlined" sx=${{borderColor: jsonOpen ? "#6c8cff" : "#2c3354", color: jsonOpen ? "#6c8cff" : "#9aa3c7", minWidth:0, px:1}} onClick=${()=> setJsonOpen(o=>!o)}>${jsonOpen ? "JSON ◀ Hide" : "JSON ▶ Show"}</Button>
+              </Box>
+              <${Box} sx=${{flex:1, overflow:"auto", p:1, bgcolor:"#0f1220", border:"1px dashed #2c3354", minHeight:500}}>
+                <${Box} sx=${{mb:1, display:"flex", gap:1, alignItems:"center"}}>
+                  <${Chip} label=${`Puck data: ${puckData.content?.length||0} components`} size="small" sx=${{bgcolor:"#6c8cff", color:"#fff", fontWeight:700}} />
+                  <${Chip} label=${`root: ${puckData.root?.props?.title||""}`} size="small" variant="outlined" sx=${{borderColor:"#2c3354", color:"#9aa3c7"}} />
+                  <${Typography} variant="caption" sx=${{color:"#9aa3c7", ml:"auto"}}>If blank, check console for [Puck] logs — try + New Page with 2 components</Typography>
+                </Box>
+                <${Box} sx=${{height:"calc(100% - 60px)", minHeight:600, bgcolor:"#ffffff", border:"2px solid #6c8cff", borderRadius:"8px", overflow:"auto", p:1}}>
+                  <${Puck}
+                    key=${pageKey || "empty"}
+                    config=${puckConfig}
+                    data=${puckData}
+                    onChange=${handlePuckChange}
+                    onPublish=${handlePuckChange}
+                    dnd=${{disableAutoScroll: true}}
+                  />
+                  ${puckData.content?.length===0 ? html`<${Box} sx=${{p:3, textAlign:"center", color:"#64748b"}}><${Typography} variant="body2">Canvas empty — select Page dropdown → gallery_small, or + New Page</Typography></Box>` : null}
+                </Box>
+                <${Box} sx=${{mt:1, p:1, bgcolor:"#1a1f35", border:"1px solid #2c3354", borderRadius:"8px", maxHeight:120, overflow:"auto"}}>
+                  <${Typography} variant="caption" sx=${{color:"#9aa3c7", fontWeight:700}}>Fallback view (proves data loaded):</Typography>
+                  <${Typography} variant="caption" sx=${{color:"#e6e9f5", display:"block", fontFamily:"JetBrains Mono,monospace", fontSize:11, whiteSpace:"pre-wrap"}}>${puckData.content?.slice(0,20).map(c=> c.type + " ("+c.props.id+")").join(", ") + (puckData.content?.length>20 ? ` +${puckData.content.length-20} more` : "") || "no components"}</Typography>
+                </Box>
+              </Box>
+            </Box>
+            <!-- JSON Panel as sibling (minimize/maximize, does not hide Puck right panel) -->
+            <${Box} sx=${{width: jsonOpen ? 420 : 0, minWidth: jsonOpen ? 420 : 0, transition:"width 0.25s ease, min-width 0.25s ease", overflow:"hidden", borderLeft: jsonOpen ? "1px solid #2c3354" : "none", bgcolor:"#1a1f35", display:"flex", flexDirection:"column", height:"calc(100vh - 128px)"}}>
+
+            <${Box} sx=${{display:"flex", flexDirection:"column", height:"100%"}}>
+              <${Box} sx=${{p:1.5, borderBottom:"1px solid #2c3354", bgcolor:"#1a1f35", display:"flex", alignItems:"center", justifyContent:"space-between", gap:1}}>
+                <${Box}>
+                  <${Typography} variant="subtitle2" sx=${{fontWeight:800}}>${selected ? "Component JSON" : "Page JSON"}</Typography>
+                  <${Typography} variant="caption" sx=${{color:"#9aa3c7"}}>
+                    ${selected ? `type: ${selected.type} • id: ${selected.id}` : "No component selected — showing full page layout. Click a component."}
+                  </Typography>
+                </Box>
+                <${Stack} direction="row" spacing=${0.5} sx=${{alignItems:"center"}}>
+                  <${Button} size="small" variant="outlined" sx=${{minWidth:0, px:1, borderColor:"#2c3354"}}
+                    onClick=${()=>{ navigator.clipboard.writeText(selectedJson); setJsonCopied(true); setTimeout(()=>setJsonCopied(false),1500);}}
+                  >Copy</Button>
+                  ${selected ? html`<${Button} size="small" variant="text" sx=${{minWidth:0, px:1, color:"#9aa3c7"}} onClick=${()=> setSelected(null)}>Show Page</Button>` : null}
+                  <${IconButton} size="small" onClick=${()=> setJsonOpen(false)} sx=${{color:"#9aa3c7", border:"1px solid #2c3354"}} title="Minimize JSON panel">◀</IconButton>
+                </Stack>
+              </Box>
+
+              ${selected ? html`
+                <${Box} sx=${{p:1, bgcolor:"#232a45", borderBottom:"1px solid #2c3354"}}>
+                  <${Stack} direction="row" spacing=${0.75} sx=${{flexWrap:"wrap"}}>
+                    <${Chip} label=${selected.type} size="small" color="primary" sx=${{fontWeight:700}}/>
+                    <${Chip} label=${"id: "+selected.id} size="small" variant="outlined" sx=${{borderColor:"#2c3354", color:"#9aa3c7", fontFamily:"JetBrains Mono,monospace", fontSize:11}}/>
+                  </Stack>
+                </Box>
+              ` : html`
+                <${Box} sx=${{p:1.25, bgcolor:"rgba(108,140,255,0.08)", borderBottom:"1px solid #2c3354"}}>
+                  <${Alert} severity="info" sx=${{py:0.25, fontSize:12, bgcolor:"transparent", color:"#9aa3c7", "& .MuiAlert-icon":{color:"#6c8cff"}}}>
+                    Drag components from the left palette into the canvas. Click any rendered component to inspect its JSON here.
+                  </Alert>
+                </Box>
+              `}
+
+              <${Box} sx=${{flex:1, overflow:"auto", p:1.5, bgcolor:"#0f1220"}}>
+                <${Box} component="pre" className="json-pre" sx=${{m:0, p:1.5, bgcolor:"#1a1f35", border:"1px solid #2c3354", borderRadius:"10px", color:"#e6e9f5", overflow:"auto"}}>
+                  ${selectedJson}
+                </Box>
+                <${Box} sx=${{mt:1.5}}>
+                  <${Typography} variant="caption" sx=${{color:"#9aa3c7", fontWeight:700, textTransform:"uppercase", letterSpacing:"0.06em"}}>How to use (visual, no JSON)</Typography>
+                  <${Typography} variant="body2" sx=${{color:"#9aa3c7", fontSize:12, mt:0.5, lineHeight:1.6}}>
+                    • <b>Drag</b> from left palette (Button, Heading, Text, etc.) onto canvas → live preview.<br/>
+                    • <b>Click</b> a component → Puck <b>right panel</b> shows <b>Style</b> (grouped, collapsible) → edit Height/Background/etc. inside one group. No JSON typing needed.<br/>
+                    • <b>Advanced (Tailwind / CSS)</b> group → <code>className</code> + <code>customCssJson</code> only if needed.<br/>
+                    • <b>Save</b> stores <code>layout.components[]</code>; <b>Publish</b> makes it live for client preview (index.html).
+                  </Typography>
+                </Box>
+              </Box>
+
+              <${Box} sx=${{p:1, borderTop:"1px solid #2c3354", bgcolor:"#1a1f35", display:"flex", gap:1}}>
+                <${Button} fullWidth size="small" variant="outlined" sx=${{borderColor:"#2c3354"}} onClick=${()=> { try{ const obj=JSON.parse(selectedJson); setSelected(obj); }catch(e){ showMsg("Invalid JSON: "+e.message, false) } }} disabled=${!selected}>Apply JSON</Button>
+                <${Button} fullWidth size="small" variant="contained" onClick=${save}>Save Page</Button>
+              </Box>
+            </Box>
+          </Box>
+          </Box>
+
+          <${Snackbar} open=${jsonCopied} autoHideDuration=${1500} message="JSON copied" anchorOrigin=${{vertical:"bottom", horizontal:"right"}} />
+        </ThemeProvider>
+        </CacheProvider>
+      `;
+    }
+
+    const root = createRoot(document.getElementById("root"));
+    root.render(html`<${App}/>`);
+  </script>
+</body>
+</html>

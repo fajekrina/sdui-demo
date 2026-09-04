@@ -1,0 +1,45 @@
+{
+  "pageId": "merchant_1-checkout_success",
+  "pageKey": "checkout_success",
+  "merchantId": "merchant_1",
+  "status": "PUBLISHED",
+  "version": 1,
+  "createdAt": "2026-08-31T00:00:00",
+  "updatedAt": "2026-08-31T00:00:00",
+  "layout": {
+    "type": "Screen",
+    "title": "Submission Successful",
+    "subtitle": "Thank you! Your details have been received.",
+    "components": [
+      {
+        "type": "SuccessCard",
+        "id": "successCard",
+        "class": "border border-green-200 bg-green-50 rounded-[10px] p-4 mb-3",
+        "fullName": "{{fullName}}",
+        "email": "{{email}}",
+        "message": "We have received your submission and will contact you at your email address.",
+        "icon": "✅"
+      },
+      {
+        "type": "Button",
+        "id": "backBtn",
+        "label": "← Back",
+        "class": "inline-flex items-center justify-center rounded-lg border border-[#ddd] bg-white px-4 py-2 text-sm font-medium text-[#111] hover:border-[var(--accent)] transition-colors",
+        "actions": { "onClick": { "type": "back" } }
+      },
+      {
+        "type": "Button",
+        "id": "toPaymentBtn",
+        "label": "Continue to Payment",
+        "class": "inline-flex items-center justify-center rounded-lg bg-[var(--accent)] text-white px-4 py-2 text-sm font-semibold border-0 hover:brightness-110 transition-colors",
+        "actions": {
+          "onClick": {
+            "type": "navigate",
+            "target": "payment",
+            "endpoint": "/api/client/page/merchant_1/payment"
+          }
+        }
+      }
+    ]
+  }
+}

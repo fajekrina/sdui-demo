@@ -1,0 +1,104 @@
+{
+  "pageId": "merchant_1-gallery_small",
+  "pageKey": "gallery_small",
+  "merchantId": "merchant_1",
+  "status": "PUBLISHED",
+  "version": 1,
+  "createdAt": "2026-09-03T00:00:00",
+  "updatedAt": "2026-09-03T00:00:00",
+  "layout": {
+    "type": "Screen",
+    "title": "PuckMUI Small Gallery",
+    "subtitle": "5 images test - if this renders, 100 is too heavy",
+    "components": [
+      {
+        "type": "Heading",
+        "id": "h1",
+        "text": "Small Gallery Test",
+        "size": "m",
+        "align": "center"
+      },
+      {
+        "type": "Text",
+        "id": "t1",
+        "text": "5 images should render instantly. If this works, 100 is performance issue.",
+        "size": "m",
+        "align": "center",
+        "color": "muted"
+      },
+      {
+        "type": "Image",
+        "id": "image_001",
+        "src": "https://picsum.photos/seed/puckmui001/400/300",
+        "alt": "PuckMUI gallery image 1",
+        "caption": "Image 001 \u2014 seed puckmui001",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_002",
+        "src": "https://picsum.photos/seed/puckmui002/400/300",
+        "alt": "PuckMUI gallery image 2",
+        "caption": "Image 002 \u2014 seed puckmui002",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_003",
+        "src": "https://picsum.photos/seed/puckmui003/600/400",
+        "alt": "PuckMUI gallery image 3",
+        "caption": "Image 003 \u2014 seed puckmui003",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_004",
+        "src": "https://picsum.photos/seed/puckmui004/400/300",
+        "alt": "PuckMUI gallery image 4",
+        "caption": "Image 004 \u2014 seed puckmui004",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_005",
+        "src": "https://picsum.photos/seed/puckmui005/400/300",
+        "alt": "PuckMUI gallery image 5",
+        "caption": "Image 005 \u2014 seed puckmui005",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Button",
+        "id": "btn_back",
+        "label": "Back to 100 Gallery",
+        "href": "#",
+        "variant": "secondary"
+      }
+    ]
+  }
+}

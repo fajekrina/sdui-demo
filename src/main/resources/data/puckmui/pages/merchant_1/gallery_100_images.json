@@ -1,0 +1,1399 @@
+{
+  "pageId": "merchant_1-gallery_100_images",
+  "pageKey": "gallery_100_images",
+  "merchantId": "merchant_1",
+  "status": "PUBLISHED",
+  "version": 1,
+  "createdAt": "2026-09-03T00:00:00",
+  "updatedAt": "2026-09-03T00:00:00",
+  "layout": {
+    "type": "Screen",
+    "title": "PuckMUI Gallery \u2014 100 Images",
+    "subtitle": "Separate PuckMUI storage (data/puckmui/pages) \u2014 isolated from SDUI data/pages",
+    "components": [
+      {
+        "type": "Hero",
+        "id": "hero_gallery",
+        "title": "PuckMUI Gallery \u2014 100 Images",
+        "description": "Stress-test for PuckMUI rendering. All 100 images are lazy-loaded. Scroll to see virtualized Grid.",
+        "align": "center",
+        "content": []
+      },
+      {
+        "type": "Image",
+        "id": "image_001",
+        "src": "https://picsum.photos/seed/puckmui001/400/300",
+        "alt": "PuckMUI gallery image 1",
+        "caption": "Image 001 \u2014 seed puckmui001",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_002",
+        "src": "https://picsum.photos/seed/puckmui002/400/300",
+        "alt": "PuckMUI gallery image 2",
+        "caption": "Image 002 \u2014 seed puckmui002",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_003",
+        "src": "https://picsum.photos/seed/puckmui003/600/400",
+        "alt": "PuckMUI gallery image 3",
+        "caption": "Image 003 \u2014 seed puckmui003",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_004",
+        "src": "https://picsum.photos/seed/puckmui004/400/300",
+        "alt": "PuckMUI gallery image 4",
+        "caption": "Image 004 \u2014 seed puckmui004",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_005",
+        "src": "https://picsum.photos/seed/puckmui005/400/300",
+        "alt": "PuckMUI gallery image 5",
+        "caption": "Image 005 \u2014 seed puckmui005",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_006",
+        "src": "https://picsum.photos/seed/puckmui006/600/400",
+        "alt": "PuckMUI gallery image 6",
+        "caption": "Image 006 \u2014 seed puckmui006",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_007",
+        "src": "https://picsum.photos/seed/puckmui007/400/300",
+        "alt": "PuckMUI gallery image 7",
+        "caption": "Image 007 \u2014 seed puckmui007",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_008",
+        "src": "https://picsum.photos/seed/puckmui008/400/300",
+        "alt": "PuckMUI gallery image 8",
+        "caption": "Image 008 \u2014 seed puckmui008",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_009",
+        "src": "https://picsum.photos/seed/puckmui009/600/400",
+        "alt": "PuckMUI gallery image 9",
+        "caption": "Image 009 \u2014 seed puckmui009",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_010",
+        "src": "https://picsum.photos/seed/puckmui010/400/300",
+        "alt": "PuckMUI gallery image 10",
+        "caption": "Image 010 \u2014 seed puckmui010",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_011",
+        "src": "https://picsum.photos/seed/puckmui011/400/300",
+        "alt": "PuckMUI gallery image 11",
+        "caption": "Image 011 \u2014 seed puckmui011",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_012",
+        "src": "https://picsum.photos/seed/puckmui012/600/400",
+        "alt": "PuckMUI gallery image 12",
+        "caption": "Image 012 \u2014 seed puckmui012",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_013",
+        "src": "https://picsum.photos/seed/puckmui013/400/300",
+        "alt": "PuckMUI gallery image 13",
+        "caption": "Image 013 \u2014 seed puckmui013",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_014",
+        "src": "https://picsum.photos/seed/puckmui014/400/300",
+        "alt": "PuckMUI gallery image 14",
+        "caption": "Image 014 \u2014 seed puckmui014",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_015",
+        "src": "https://picsum.photos/seed/puckmui015/600/400",
+        "alt": "PuckMUI gallery image 15",
+        "caption": "Image 015 \u2014 seed puckmui015",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_016",
+        "src": "https://picsum.photos/seed/puckmui016/400/300",
+        "alt": "PuckMUI gallery image 16",
+        "caption": "Image 016 \u2014 seed puckmui016",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_017",
+        "src": "https://picsum.photos/seed/puckmui017/400/300",
+        "alt": "PuckMUI gallery image 17",
+        "caption": "Image 017 \u2014 seed puckmui017",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_018",
+        "src": "https://picsum.photos/seed/puckmui018/600/400",
+        "alt": "PuckMUI gallery image 18",
+        "caption": "Image 018 \u2014 seed puckmui018",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_019",
+        "src": "https://picsum.photos/seed/puckmui019/400/300",
+        "alt": "PuckMUI gallery image 19",
+        "caption": "Image 019 \u2014 seed puckmui019",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_020",
+        "src": "https://picsum.photos/seed/puckmui020/400/300",
+        "alt": "PuckMUI gallery image 20",
+        "caption": "Image 020 \u2014 seed puckmui020",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_021",
+        "src": "https://picsum.photos/seed/puckmui021/600/400",
+        "alt": "PuckMUI gallery image 21",
+        "caption": "Image 021 \u2014 seed puckmui021",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_022",
+        "src": "https://picsum.photos/seed/puckmui022/400/300",
+        "alt": "PuckMUI gallery image 22",
+        "caption": "Image 022 \u2014 seed puckmui022",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_023",
+        "src": "https://picsum.photos/seed/puckmui023/400/300",
+        "alt": "PuckMUI gallery image 23",
+        "caption": "Image 023 \u2014 seed puckmui023",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_024",
+        "src": "https://picsum.photos/seed/puckmui024/600/400",
+        "alt": "PuckMUI gallery image 24",
+        "caption": "Image 024 \u2014 seed puckmui024",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_025",
+        "src": "https://picsum.photos/seed/puckmui025/400/300",
+        "alt": "PuckMUI gallery image 25",
+        "caption": "Image 025 \u2014 seed puckmui025",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_026",
+        "src": "https://picsum.photos/seed/puckmui026/400/300",
+        "alt": "PuckMUI gallery image 26",
+        "caption": "Image 026 \u2014 seed puckmui026",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_027",
+        "src": "https://picsum.photos/seed/puckmui027/600/400",
+        "alt": "PuckMUI gallery image 27",
+        "caption": "Image 027 \u2014 seed puckmui027",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_028",
+        "src": "https://picsum.photos/seed/puckmui028/400/300",
+        "alt": "PuckMUI gallery image 28",
+        "caption": "Image 028 \u2014 seed puckmui028",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_029",
+        "src": "https://picsum.photos/seed/puckmui029/400/300",
+        "alt": "PuckMUI gallery image 29",
+        "caption": "Image 029 \u2014 seed puckmui029",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_030",
+        "src": "https://picsum.photos/seed/puckmui030/600/400",
+        "alt": "PuckMUI gallery image 30",
+        "caption": "Image 030 \u2014 seed puckmui030",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_031",
+        "src": "https://picsum.photos/seed/puckmui031/400/300",
+        "alt": "PuckMUI gallery image 31",
+        "caption": "Image 031 \u2014 seed puckmui031",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_032",
+        "src": "https://picsum.photos/seed/puckmui032/400/300",
+        "alt": "PuckMUI gallery image 32",
+        "caption": "Image 032 \u2014 seed puckmui032",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_033",
+        "src": "https://picsum.photos/seed/puckmui033/600/400",
+        "alt": "PuckMUI gallery image 33",
+        "caption": "Image 033 \u2014 seed puckmui033",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_034",
+        "src": "https://picsum.photos/seed/puckmui034/400/300",
+        "alt": "PuckMUI gallery image 34",
+        "caption": "Image 034 \u2014 seed puckmui034",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_035",
+        "src": "https://picsum.photos/seed/puckmui035/400/300",
+        "alt": "PuckMUI gallery image 35",
+        "caption": "Image 035 \u2014 seed puckmui035",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_036",
+        "src": "https://picsum.photos/seed/puckmui036/600/400",
+        "alt": "PuckMUI gallery image 36",
+        "caption": "Image 036 \u2014 seed puckmui036",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_037",
+        "src": "https://picsum.photos/seed/puckmui037/400/300",
+        "alt": "PuckMUI gallery image 37",
+        "caption": "Image 037 \u2014 seed puckmui037",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_038",
+        "src": "https://picsum.photos/seed/puckmui038/400/300",
+        "alt": "PuckMUI gallery image 38",
+        "caption": "Image 038 \u2014 seed puckmui038",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_039",
+        "src": "https://picsum.photos/seed/puckmui039/600/400",
+        "alt": "PuckMUI gallery image 39",
+        "caption": "Image 039 \u2014 seed puckmui039",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_040",
+        "src": "https://picsum.photos/seed/puckmui040/400/300",
+        "alt": "PuckMUI gallery image 40",
+        "caption": "Image 040 \u2014 seed puckmui040",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_041",
+        "src": "https://picsum.photos/seed/puckmui041/400/300",
+        "alt": "PuckMUI gallery image 41",
+        "caption": "Image 041 \u2014 seed puckmui041",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_042",
+        "src": "https://picsum.photos/seed/puckmui042/600/400",
+        "alt": "PuckMUI gallery image 42",
+        "caption": "Image 042 \u2014 seed puckmui042",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_043",
+        "src": "https://picsum.photos/seed/puckmui043/400/300",
+        "alt": "PuckMUI gallery image 43",
+        "caption": "Image 043 \u2014 seed puckmui043",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_044",
+        "src": "https://picsum.photos/seed/puckmui044/400/300",
+        "alt": "PuckMUI gallery image 44",
+        "caption": "Image 044 \u2014 seed puckmui044",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_045",
+        "src": "https://picsum.photos/seed/puckmui045/600/400",
+        "alt": "PuckMUI gallery image 45",
+        "caption": "Image 045 \u2014 seed puckmui045",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_046",
+        "src": "https://picsum.photos/seed/puckmui046/400/300",
+        "alt": "PuckMUI gallery image 46",
+        "caption": "Image 046 \u2014 seed puckmui046",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_047",
+        "src": "https://picsum.photos/seed/puckmui047/400/300",
+        "alt": "PuckMUI gallery image 47",
+        "caption": "Image 047 \u2014 seed puckmui047",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_048",
+        "src": "https://picsum.photos/seed/puckmui048/600/400",
+        "alt": "PuckMUI gallery image 48",
+        "caption": "Image 048 \u2014 seed puckmui048",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_049",
+        "src": "https://picsum.photos/seed/puckmui049/400/300",
+        "alt": "PuckMUI gallery image 49",
+        "caption": "Image 049 \u2014 seed puckmui049",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_050",
+        "src": "https://picsum.photos/seed/puckmui050/400/300",
+        "alt": "PuckMUI gallery image 50",
+        "caption": "Image 050 \u2014 seed puckmui050",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_051",
+        "src": "https://picsum.photos/seed/puckmui051/600/400",
+        "alt": "PuckMUI gallery image 51",
+        "caption": "Image 051 \u2014 seed puckmui051",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_052",
+        "src": "https://picsum.photos/seed/puckmui052/400/300",
+        "alt": "PuckMUI gallery image 52",
+        "caption": "Image 052 \u2014 seed puckmui052",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_053",
+        "src": "https://picsum.photos/seed/puckmui053/400/300",
+        "alt": "PuckMUI gallery image 53",
+        "caption": "Image 053 \u2014 seed puckmui053",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_054",
+        "src": "https://picsum.photos/seed/puckmui054/600/400",
+        "alt": "PuckMUI gallery image 54",
+        "caption": "Image 054 \u2014 seed puckmui054",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_055",
+        "src": "https://picsum.photos/seed/puckmui055/400/300",
+        "alt": "PuckMUI gallery image 55",
+        "caption": "Image 055 \u2014 seed puckmui055",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_056",
+        "src": "https://picsum.photos/seed/puckmui056/400/300",
+        "alt": "PuckMUI gallery image 56",
+        "caption": "Image 056 \u2014 seed puckmui056",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_057",
+        "src": "https://picsum.photos/seed/puckmui057/600/400",
+        "alt": "PuckMUI gallery image 57",
+        "caption": "Image 057 \u2014 seed puckmui057",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_058",
+        "src": "https://picsum.photos/seed/puckmui058/400/300",
+        "alt": "PuckMUI gallery image 58",
+        "caption": "Image 058 \u2014 seed puckmui058",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_059",
+        "src": "https://picsum.photos/seed/puckmui059/400/300",
+        "alt": "PuckMUI gallery image 59",
+        "caption": "Image 059 \u2014 seed puckmui059",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_060",
+        "src": "https://picsum.photos/seed/puckmui060/600/400",
+        "alt": "PuckMUI gallery image 60",
+        "caption": "Image 060 \u2014 seed puckmui060",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_061",
+        "src": "https://picsum.photos/seed/puckmui061/400/300",
+        "alt": "PuckMUI gallery image 61",
+        "caption": "Image 061 \u2014 seed puckmui061",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_062",
+        "src": "https://picsum.photos/seed/puckmui062/400/300",
+        "alt": "PuckMUI gallery image 62",
+        "caption": "Image 062 \u2014 seed puckmui062",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_063",
+        "src": "https://picsum.photos/seed/puckmui063/600/400",
+        "alt": "PuckMUI gallery image 63",
+        "caption": "Image 063 \u2014 seed puckmui063",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_064",
+        "src": "https://picsum.photos/seed/puckmui064/400/300",
+        "alt": "PuckMUI gallery image 64",
+        "caption": "Image 064 \u2014 seed puckmui064",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_065",
+        "src": "https://picsum.photos/seed/puckmui065/400/300",
+        "alt": "PuckMUI gallery image 65",
+        "caption": "Image 065 \u2014 seed puckmui065",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_066",
+        "src": "https://picsum.photos/seed/puckmui066/600/400",
+        "alt": "PuckMUI gallery image 66",
+        "caption": "Image 066 \u2014 seed puckmui066",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_067",
+        "src": "https://picsum.photos/seed/puckmui067/400/300",
+        "alt": "PuckMUI gallery image 67",
+        "caption": "Image 067 \u2014 seed puckmui067",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_068",
+        "src": "https://picsum.photos/seed/puckmui068/400/300",
+        "alt": "PuckMUI gallery image 68",
+        "caption": "Image 068 \u2014 seed puckmui068",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_069",
+        "src": "https://picsum.photos/seed/puckmui069/600/400",
+        "alt": "PuckMUI gallery image 69",
+        "caption": "Image 069 \u2014 seed puckmui069",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_070",
+        "src": "https://picsum.photos/seed/puckmui070/400/300",
+        "alt": "PuckMUI gallery image 70",
+        "caption": "Image 070 \u2014 seed puckmui070",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_071",
+        "src": "https://picsum.photos/seed/puckmui071/400/300",
+        "alt": "PuckMUI gallery image 71",
+        "caption": "Image 071 \u2014 seed puckmui071",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_072",
+        "src": "https://picsum.photos/seed/puckmui072/600/400",
+        "alt": "PuckMUI gallery image 72",
+        "caption": "Image 072 \u2014 seed puckmui072",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_073",
+        "src": "https://picsum.photos/seed/puckmui073/400/300",
+        "alt": "PuckMUI gallery image 73",
+        "caption": "Image 073 \u2014 seed puckmui073",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_074",
+        "src": "https://picsum.photos/seed/puckmui074/400/300",
+        "alt": "PuckMUI gallery image 74",
+        "caption": "Image 074 \u2014 seed puckmui074",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_075",
+        "src": "https://picsum.photos/seed/puckmui075/600/400",
+        "alt": "PuckMUI gallery image 75",
+        "caption": "Image 075 \u2014 seed puckmui075",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_076",
+        "src": "https://picsum.photos/seed/puckmui076/400/300",
+        "alt": "PuckMUI gallery image 76",
+        "caption": "Image 076 \u2014 seed puckmui076",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_077",
+        "src": "https://picsum.photos/seed/puckmui077/400/300",
+        "alt": "PuckMUI gallery image 77",
+        "caption": "Image 077 \u2014 seed puckmui077",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_078",
+        "src": "https://picsum.photos/seed/puckmui078/600/400",
+        "alt": "PuckMUI gallery image 78",
+        "caption": "Image 078 \u2014 seed puckmui078",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_079",
+        "src": "https://picsum.photos/seed/puckmui079/400/300",
+        "alt": "PuckMUI gallery image 79",
+        "caption": "Image 079 \u2014 seed puckmui079",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_080",
+        "src": "https://picsum.photos/seed/puckmui080/400/300",
+        "alt": "PuckMUI gallery image 80",
+        "caption": "Image 080 \u2014 seed puckmui080",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_081",
+        "src": "https://picsum.photos/seed/puckmui081/600/400",
+        "alt": "PuckMUI gallery image 81",
+        "caption": "Image 081 \u2014 seed puckmui081",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_082",
+        "src": "https://picsum.photos/seed/puckmui082/400/300",
+        "alt": "PuckMUI gallery image 82",
+        "caption": "Image 082 \u2014 seed puckmui082",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_083",
+        "src": "https://picsum.photos/seed/puckmui083/400/300",
+        "alt": "PuckMUI gallery image 83",
+        "caption": "Image 083 \u2014 seed puckmui083",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_084",
+        "src": "https://picsum.photos/seed/puckmui084/600/400",
+        "alt": "PuckMUI gallery image 84",
+        "caption": "Image 084 \u2014 seed puckmui084",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_085",
+        "src": "https://picsum.photos/seed/puckmui085/400/300",
+        "alt": "PuckMUI gallery image 85",
+        "caption": "Image 085 \u2014 seed puckmui085",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_086",
+        "src": "https://picsum.photos/seed/puckmui086/400/300",
+        "alt": "PuckMUI gallery image 86",
+        "caption": "Image 086 \u2014 seed puckmui086",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_087",
+        "src": "https://picsum.photos/seed/puckmui087/600/400",
+        "alt": "PuckMUI gallery image 87",
+        "caption": "Image 087 \u2014 seed puckmui087",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_088",
+        "src": "https://picsum.photos/seed/puckmui088/400/300",
+        "alt": "PuckMUI gallery image 88",
+        "caption": "Image 088 \u2014 seed puckmui088",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_089",
+        "src": "https://picsum.photos/seed/puckmui089/400/300",
+        "alt": "PuckMUI gallery image 89",
+        "caption": "Image 089 \u2014 seed puckmui089",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_090",
+        "src": "https://picsum.photos/seed/puckmui090/600/400",
+        "alt": "PuckMUI gallery image 90",
+        "caption": "Image 090 \u2014 seed puckmui090",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_091",
+        "src": "https://picsum.photos/seed/puckmui091/400/300",
+        "alt": "PuckMUI gallery image 91",
+        "caption": "Image 091 \u2014 seed puckmui091",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_092",
+        "src": "https://picsum.photos/seed/puckmui092/400/300",
+        "alt": "PuckMUI gallery image 92",
+        "caption": "Image 092 \u2014 seed puckmui092",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_093",
+        "src": "https://picsum.photos/seed/puckmui093/600/400",
+        "alt": "PuckMUI gallery image 93",
+        "caption": "Image 093 \u2014 seed puckmui093",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_094",
+        "src": "https://picsum.photos/seed/puckmui094/400/300",
+        "alt": "PuckMUI gallery image 94",
+        "caption": "Image 094 \u2014 seed puckmui094",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_095",
+        "src": "https://picsum.photos/seed/puckmui095/400/300",
+        "alt": "PuckMUI gallery image 95",
+        "caption": "Image 095 \u2014 seed puckmui095",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_096",
+        "src": "https://picsum.photos/seed/puckmui096/600/400",
+        "alt": "PuckMUI gallery image 96",
+        "caption": "Image 096 \u2014 seed puckmui096",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_097",
+        "src": "https://picsum.photos/seed/puckmui097/400/300",
+        "alt": "PuckMUI gallery image 97",
+        "caption": "Image 097 \u2014 seed puckmui097",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_098",
+        "src": "https://picsum.photos/seed/puckmui098/400/300",
+        "alt": "PuckMUI gallery image 98",
+        "caption": "Image 098 \u2014 seed puckmui098",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_099",
+        "src": "https://picsum.photos/seed/puckmui099/600/400",
+        "alt": "PuckMUI gallery image 99",
+        "caption": "Image 099 \u2014 seed puckmui099",
+        "style": {},
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_100",
+        "src": "https://picsum.photos/seed/puckmui100/400/300",
+        "alt": "PuckMUI gallery image 100",
+        "caption": "Image 100 \u2014 seed puckmui100",
+        "style": {
+          "borderRadius": "10px",
+          "margin": "8px 0"
+        },
+        "advanced": {
+          "className": "",
+          "customCssJson": ""
+        }
+      },
+      {
+        "type": "Flex",
+        "id": "flex_footer",
+        "direction": "row",
+        "justifyContent": "center",
+        "gap": "16px",
+        "wrap": "wrap",
+        "items": [
+          {
+            "type": "Button",
+            "id": "btn_top",
+            "label": "\u2191 Back to Top",
+            "href": "#",
+            "variant": "secondary"
+          },
+          {
+            "type": "Text",
+            "id": "txt_count",
+            "text": "100 images rendered via PuckMUI",
+            "size": "s",
+            "align": "center",
+            "color": "muted"
+          }
+        ]
+      }
+    ]
+  }
+}

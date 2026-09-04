@@ -1,0 +1,58 @@
+{
+  "pageId": "merchant_1-checkout",
+  "pageKey": "checkout",
+  "merchantId": "merchant_1",
+  "status": "PUBLISHED",
+  "version": 1,
+  "createdAt": "2026-08-27T10:05:00",
+  "updatedAt": "2026-08-27T10:05:00",
+  "layout": {
+    "type": "Screen",
+    "title": "Checkout",
+    "subtitle": "Review your order",
+    "components": [
+      {
+        "type": "OrderSummary",
+        "id": "orderSummary",
+        "itemsEndpoint": "/api/client/page/merchant_1/checkout",
+        "lines": [
+          { "label": "Section A - Seat A12", "amount": 120.0 },
+          { "label": "Service Fee", "amount": 9.5 }
+        ],
+        "total": 129.5
+      },
+      {
+        "type": "Form",
+        "id": "checkoutForm",
+        "fields": [
+          { "name": "email", "type": "email", "label": "Email", "required": true },
+          { "name": "fullName", "type": "text", "label": "Full Name", "required": true }
+        ],
+        "validation": {
+          "rules": [
+            { "field": "email", "required": true, "type": "email", "message": "Valid email is required." },
+            { "field": "fullName", "required": true, "message": "Full name is required." }
+          ]
+        },
+        "actions": {
+          "onSubmit": {
+            "type": "submit",
+            "endpoint": "/api/client/action/submit",
+            "action": "CHECKOUT",
+            "label": "Submit",
+            "success": {
+              "type": "navigate",
+              "target": "checkout_success",
+              "endpoint": "/api/client/page/merchant_1/checkout_success",
+              "message": "Submission received! Showing your details."
+            },
+            "error": {
+              "type": "alert",
+              "message": "Please correct the highlighted fields."
+            }
+          }
+        }
+      }
+    ]
+  }
+}

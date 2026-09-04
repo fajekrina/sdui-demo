@@ -1,0 +1,1127 @@
+{
+  "pageId": "merchant_1-mixed_100",
+  "pageKey": "mixed_100",
+  "merchantId": "merchant_1",
+  "status": "PUBLISHED",
+  "version": 1,
+  "createdAt": "2026-09-03T00:00:00",
+  "updatedAt": "2026-09-03T00:00:00",
+  "layout": {
+    "type": "Screen",
+    "title": "PuckMUI Mixed 100 \u2014 Grid/Flex/Heading/Text/Button/Card/Hero/Image/SDUI",
+    "subtitle": "100 mixed components stress-test \u2014 separate PuckMUI storage data/puckmui/pages",
+    "components": [
+      {
+        "type": "Text",
+        "id": "text_001",
+        "text": "Text block 1: Lorem ipsum dolor sit amet, component 1 in mixed 100.",
+        "size": "m",
+        "align": "center",
+        "color": "muted"
+      },
+      {
+        "type": "Button",
+        "id": "button_002",
+        "label": "Button 2",
+        "href": "#",
+        "variant": "primary",
+        "size": "large",
+        "actionsJson": "{\"onClick\":{\"type\":\"navigate\",\"target\":\"checkout\"}}"
+      },
+      {
+        "type": "Card",
+        "id": "card_003",
+        "title": "Card 3",
+        "description": "Description for card 3 in mixed gallery.",
+        "icon": "rocket",
+        "mode": "card"
+      },
+      {
+        "type": "Hero",
+        "id": "hero_004",
+        "title": "Hero 4",
+        "description": "Hero description 4",
+        "align": "left",
+        "content": []
+      },
+      {
+        "type": "Grid",
+        "id": "grid_005",
+        "numColumns": 3,
+        "gap": "32px",
+        "items": [],
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Flex",
+        "id": "flex_006",
+        "direction": "row",
+        "justifyContent": "start",
+        "gap": "16px",
+        "wrap": "wrap",
+        "items": []
+      },
+      {
+        "type": "Space",
+        "id": "space_007",
+        "size": "24px",
+        "direction": "vertical"
+      },
+      {
+        "type": "Divider",
+        "id": "divider_008",
+        "label": ""
+      },
+      {
+        "type": "Image",
+        "id": "image_009",
+        "src": "https://picsum.photos/seed/mixed009/600/400",
+        "alt": "Mixed image 9",
+        "caption": "Image 009"
+      },
+      {
+        "type": "SeatGrid",
+        "id": "seatgrid_010",
+        "eventId": "evt-mixed-10",
+        "currency": "USD",
+        "sections": [
+          {
+            "id": "sec-10-a",
+            "name": "Section A 10",
+            "price": 60,
+            "available": 30
+          }
+        ],
+        "actionsJson": "{\"onSelect\":{\"type\":\"validateAndReserve\",\"action\":\"SEAT_SELECTION\"}}",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "OrderSummary",
+        "id": "ordersummary_011",
+        "lines": [
+          {
+            "label": "Item 11 A",
+            "amount": 21
+          },
+          {
+            "label": "Fee 11",
+            "amount": 2.5
+          }
+        ],
+        "total": 23.5,
+        "currency": "USD"
+      },
+      {
+        "type": "Form",
+        "id": "form_012",
+        "fields": [
+          {
+            "name": "field12",
+            "type": "text",
+            "label": "Field 12",
+            "required": false
+          }
+        ],
+        "label": "Submit 12",
+        "actionsJson": "{\"onSubmit\":{\"action\":\"CHECKOUT\"}}"
+      },
+      {
+        "type": "PaymentForm",
+        "id": "paymentform_013",
+        "amount": 112,
+        "currency": "USD",
+        "methods": [
+          {
+            "value": "CARD"
+          },
+          {
+            "value": "PAYPAL"
+          }
+        ],
+        "fields": [
+          {
+            "name": "cardNumber",
+            "type": "text",
+            "label": "Card Number",
+            "required": true
+          }
+        ],
+        "actionsJson": "{\"onSubmit\":{\"action\":\"PAYMENT\"}}"
+      },
+      {
+        "type": "ConfirmationCard",
+        "id": "confirmationcard_014",
+        "orderId": "ORD-MIXED-0014",
+        "event": "Event 14",
+        "seats": [
+          {
+            "value": "A14"
+          }
+        ],
+        "total": 114
+      },
+      {
+        "type": "SuccessCard",
+        "id": "successcard_015",
+        "message": "Success 15 - mixed gallery component.",
+        "fullName": "{{fullName}}",
+        "email": "{{email}}",
+        "icon": "\u2705",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Heading",
+        "id": "heading_016",
+        "text": "Heading 16 - Mixed Gallery",
+        "size": "s",
+        "level": "",
+        "align": "center"
+      },
+      {
+        "type": "Text",
+        "id": "text_017",
+        "text": "Text block 17: Lorem ipsum dolor sit amet, component 17 in mixed 100.",
+        "size": "l",
+        "align": "center",
+        "color": "muted"
+      },
+      {
+        "type": "Button",
+        "id": "button_018",
+        "label": "Button 18",
+        "href": "#",
+        "variant": "primary",
+        "size": "small",
+        "actionsJson": "{\"onClick\":{\"type\":\"navigate\",\"target\":\"checkout\"}}"
+      },
+      {
+        "type": "Card",
+        "id": "card_019",
+        "title": "Card 19",
+        "description": "Description for card 19 in mixed gallery.",
+        "icon": "",
+        "mode": "card"
+      },
+      {
+        "type": "Hero",
+        "id": "hero_020",
+        "title": "Hero 20",
+        "description": "Hero description 20",
+        "align": "left",
+        "content": [],
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Grid",
+        "id": "grid_021",
+        "numColumns": 3,
+        "gap": "16px",
+        "items": []
+      },
+      {
+        "type": "Flex",
+        "id": "flex_022",
+        "direction": "row",
+        "justifyContent": "center",
+        "gap": "16px",
+        "wrap": "wrap",
+        "items": []
+      },
+      {
+        "type": "Space",
+        "id": "space_023",
+        "size": "32px",
+        "direction": "horizontal"
+      },
+      {
+        "type": "Divider",
+        "id": "divider_024",
+        "label": "Section 24"
+      },
+      {
+        "type": "Image",
+        "id": "image_025",
+        "src": "https://picsum.photos/seed/mixed025/600/400",
+        "alt": "Mixed image 25",
+        "caption": "Image 025",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "SeatGrid",
+        "id": "seatgrid_026",
+        "eventId": "evt-mixed-26",
+        "currency": "USD",
+        "sections": [
+          {
+            "id": "sec-26-a",
+            "name": "Section A 26",
+            "price": 76,
+            "available": 46
+          }
+        ],
+        "actionsJson": "{\"onSelect\":{\"type\":\"validateAndReserve\",\"action\":\"SEAT_SELECTION\"}}"
+      },
+      {
+        "type": "OrderSummary",
+        "id": "ordersummary_027",
+        "lines": [
+          {
+            "label": "Item 27 A",
+            "amount": 37
+          },
+          {
+            "label": "Fee 27",
+            "amount": 2.5
+          }
+        ],
+        "total": 39.5,
+        "currency": "USD"
+      },
+      {
+        "type": "Form",
+        "id": "form_028",
+        "fields": [
+          {
+            "name": "field28",
+            "type": "text",
+            "label": "Field 28",
+            "required": false
+          }
+        ],
+        "label": "Submit 28",
+        "actionsJson": "{\"onSubmit\":{\"action\":\"CHECKOUT\"}}"
+      },
+      {
+        "type": "PaymentForm",
+        "id": "paymentform_029",
+        "amount": 128,
+        "currency": "USD",
+        "methods": [
+          {
+            "value": "CARD"
+          },
+          {
+            "value": "PAYPAL"
+          }
+        ],
+        "fields": [
+          {
+            "name": "cardNumber",
+            "type": "text",
+            "label": "Card Number",
+            "required": true
+          }
+        ],
+        "actionsJson": "{\"onSubmit\":{\"action\":\"PAYMENT\"}}"
+      },
+      {
+        "type": "ConfirmationCard",
+        "id": "confirmationcard_030",
+        "orderId": "ORD-MIXED-0030",
+        "event": "Event 30",
+        "seats": [
+          {
+            "value": "A0"
+          }
+        ],
+        "total": 130,
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "SuccessCard",
+        "id": "successcard_031",
+        "message": "Success 31 - mixed gallery component.",
+        "fullName": "{{fullName}}",
+        "email": "{{email}}",
+        "icon": "\u2705"
+      },
+      {
+        "type": "Heading",
+        "id": "heading_032",
+        "text": "Heading 32 - Mixed Gallery",
+        "size": "s",
+        "level": "",
+        "align": "right"
+      },
+      {
+        "type": "Text",
+        "id": "text_033",
+        "text": "Text block 33: Lorem ipsum dolor sit amet, component 33 in mixed 100.",
+        "size": "s",
+        "align": "center",
+        "color": "muted"
+      },
+      {
+        "type": "Button",
+        "id": "button_034",
+        "label": "Button 34",
+        "href": "#",
+        "variant": "primary",
+        "size": "medium",
+        "actionsJson": "{\"onClick\":{\"type\":\"navigate\",\"target\":\"checkout\"}}"
+      },
+      {
+        "type": "Card",
+        "id": "card_035",
+        "title": "Card 35",
+        "description": "Description for card 35 in mixed gallery.",
+        "icon": "star",
+        "mode": "card",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Hero",
+        "id": "hero_036",
+        "title": "Hero 36",
+        "description": "Hero description 36",
+        "align": "left",
+        "content": []
+      },
+      {
+        "type": "Grid",
+        "id": "grid_037",
+        "numColumns": 3,
+        "gap": "24px",
+        "items": []
+      },
+      {
+        "type": "Flex",
+        "id": "flex_038",
+        "direction": "row",
+        "justifyContent": "end",
+        "gap": "16px",
+        "wrap": "wrap",
+        "items": []
+      },
+      {
+        "type": "Space",
+        "id": "space_039",
+        "size": "16px",
+        "direction": ""
+      },
+      {
+        "type": "Divider",
+        "id": "divider_040",
+        "label": "",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Image",
+        "id": "image_041",
+        "src": "https://picsum.photos/seed/mixed041/600/400",
+        "alt": "Mixed image 41",
+        "caption": "Image 041"
+      },
+      {
+        "type": "SeatGrid",
+        "id": "seatgrid_042",
+        "eventId": "evt-mixed-42",
+        "currency": "USD",
+        "sections": [
+          {
+            "id": "sec-42-a",
+            "name": "Section A 42",
+            "price": 92,
+            "available": 62
+          }
+        ],
+        "actionsJson": "{\"onSelect\":{\"type\":\"validateAndReserve\",\"action\":\"SEAT_SELECTION\"}}"
+      },
+      {
+        "type": "OrderSummary",
+        "id": "ordersummary_043",
+        "lines": [
+          {
+            "label": "Item 43 A",
+            "amount": 53
+          },
+          {
+            "label": "Fee 43",
+            "amount": 2.5
+          }
+        ],
+        "total": 55.5,
+        "currency": "USD"
+      },
+      {
+        "type": "Form",
+        "id": "form_044",
+        "fields": [
+          {
+            "name": "field44",
+            "type": "text",
+            "label": "Field 44",
+            "required": false
+          }
+        ],
+        "label": "Submit 44",
+        "actionsJson": "{\"onSubmit\":{\"action\":\"CHECKOUT\"}}"
+      },
+      {
+        "type": "PaymentForm",
+        "id": "paymentform_045",
+        "amount": 144,
+        "currency": "USD",
+        "methods": [
+          {
+            "value": "CARD"
+          },
+          {
+            "value": "PAYPAL"
+          }
+        ],
+        "fields": [
+          {
+            "name": "cardNumber",
+            "type": "text",
+            "label": "Card Number",
+            "required": true
+          }
+        ],
+        "actionsJson": "{\"onSubmit\":{\"action\":\"PAYMENT\"}}",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "ConfirmationCard",
+        "id": "confirmationcard_046",
+        "orderId": "ORD-MIXED-0046",
+        "event": "Event 46",
+        "seats": [
+          {
+            "value": "A16"
+          }
+        ],
+        "total": 146
+      },
+      {
+        "type": "SuccessCard",
+        "id": "successcard_047",
+        "message": "Success 47 - mixed gallery component.",
+        "fullName": "{{fullName}}",
+        "email": "{{email}}",
+        "icon": "\u2705"
+      },
+      {
+        "type": "Heading",
+        "id": "heading_048",
+        "text": "Heading 48 - Mixed Gallery",
+        "size": "s",
+        "level": "1",
+        "align": "left"
+      },
+      {
+        "type": "Text",
+        "id": "text_049",
+        "text": "Text block 49: Lorem ipsum dolor sit amet, component 49 in mixed 100.",
+        "size": "m",
+        "align": "center",
+        "color": "muted"
+      },
+      {
+        "type": "Button",
+        "id": "button_050",
+        "label": "Button 50",
+        "href": "#",
+        "variant": "primary",
+        "size": "large",
+        "actionsJson": "{\"onClick\":{\"type\":\"navigate\",\"target\":\"checkout\"}}",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Card",
+        "id": "card_051",
+        "title": "Card 51",
+        "description": "Description for card 51 in mixed gallery.",
+        "icon": "sparkles",
+        "mode": "card"
+      },
+      {
+        "type": "Hero",
+        "id": "hero_052",
+        "title": "Hero 52",
+        "description": "Hero description 52",
+        "align": "left",
+        "content": []
+      },
+      {
+        "type": "Grid",
+        "id": "grid_053",
+        "numColumns": 3,
+        "gap": "32px",
+        "items": []
+      },
+      {
+        "type": "Flex",
+        "id": "flex_054",
+        "direction": "row",
+        "justifyContent": "start",
+        "gap": "16px",
+        "wrap": "wrap",
+        "items": []
+      },
+      {
+        "type": "Space",
+        "id": "space_055",
+        "size": "24px",
+        "direction": "vertical",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Divider",
+        "id": "divider_056",
+        "label": ""
+      },
+      {
+        "type": "Image",
+        "id": "image_057",
+        "src": "https://picsum.photos/seed/mixed057/600/400",
+        "alt": "Mixed image 57",
+        "caption": "Image 057"
+      },
+      {
+        "type": "SeatGrid",
+        "id": "seatgrid_058",
+        "eventId": "evt-mixed-58",
+        "currency": "USD",
+        "sections": [
+          {
+            "id": "sec-58-a",
+            "name": "Section A 58",
+            "price": 108,
+            "available": 28
+          }
+        ],
+        "actionsJson": "{\"onSelect\":{\"type\":\"validateAndReserve\",\"action\":\"SEAT_SELECTION\"}}"
+      },
+      {
+        "type": "OrderSummary",
+        "id": "ordersummary_059",
+        "lines": [
+          {
+            "label": "Item 59 A",
+            "amount": 69
+          },
+          {
+            "label": "Fee 59",
+            "amount": 2.5
+          }
+        ],
+        "total": 71.5,
+        "currency": "USD"
+      },
+      {
+        "type": "Form",
+        "id": "form_060",
+        "fields": [
+          {
+            "name": "field60",
+            "type": "text",
+            "label": "Field 60",
+            "required": false
+          }
+        ],
+        "label": "Submit 60",
+        "actionsJson": "{\"onSubmit\":{\"action\":\"CHECKOUT\"}}",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "PaymentForm",
+        "id": "paymentform_061",
+        "amount": 160,
+        "currency": "USD",
+        "methods": [
+          {
+            "value": "CARD"
+          },
+          {
+            "value": "PAYPAL"
+          }
+        ],
+        "fields": [
+          {
+            "name": "cardNumber",
+            "type": "text",
+            "label": "Card Number",
+            "required": true
+          }
+        ],
+        "actionsJson": "{\"onSubmit\":{\"action\":\"PAYMENT\"}}"
+      },
+      {
+        "type": "ConfirmationCard",
+        "id": "confirmationcard_062",
+        "orderId": "ORD-MIXED-0062",
+        "event": "Event 62",
+        "seats": [
+          {
+            "value": "A2"
+          }
+        ],
+        "total": 162
+      },
+      {
+        "type": "SuccessCard",
+        "id": "successcard_063",
+        "message": "Success 63 - mixed gallery component.",
+        "fullName": "{{fullName}}",
+        "email": "{{email}}",
+        "icon": "\u2705"
+      },
+      {
+        "type": "Heading",
+        "id": "heading_064",
+        "text": "Heading 64 - Mixed Gallery",
+        "size": "s",
+        "level": "",
+        "align": "center"
+      },
+      {
+        "type": "Text",
+        "id": "text_065",
+        "text": "Text block 65: Lorem ipsum dolor sit amet, component 65 in mixed 100.",
+        "size": "l",
+        "align": "center",
+        "color": "muted",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Button",
+        "id": "button_066",
+        "label": "Button 66",
+        "href": "#",
+        "variant": "primary",
+        "size": "small",
+        "actionsJson": "{\"onClick\":{\"type\":\"navigate\",\"target\":\"checkout\"}}"
+      },
+      {
+        "type": "Card",
+        "id": "card_067",
+        "title": "Card 67",
+        "description": "Description for card 67 in mixed gallery.",
+        "icon": "target",
+        "mode": "card"
+      },
+      {
+        "type": "Hero",
+        "id": "hero_068",
+        "title": "Hero 68",
+        "description": "Hero description 68",
+        "align": "left",
+        "content": []
+      },
+      {
+        "type": "Grid",
+        "id": "grid_069",
+        "numColumns": 3,
+        "gap": "16px",
+        "items": []
+      },
+      {
+        "type": "Flex",
+        "id": "flex_070",
+        "direction": "row",
+        "justifyContent": "center",
+        "gap": "16px",
+        "wrap": "wrap",
+        "items": [],
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Space",
+        "id": "space_071",
+        "size": "32px",
+        "direction": "horizontal"
+      },
+      {
+        "type": "Divider",
+        "id": "divider_072",
+        "label": "Section 72"
+      },
+      {
+        "type": "Image",
+        "id": "image_073",
+        "src": "https://picsum.photos/seed/mixed073/600/400",
+        "alt": "Mixed image 73",
+        "caption": "Image 073"
+      },
+      {
+        "type": "SeatGrid",
+        "id": "seatgrid_074",
+        "eventId": "evt-mixed-74",
+        "currency": "USD",
+        "sections": [
+          {
+            "id": "sec-74-a",
+            "name": "Section A 74",
+            "price": 124,
+            "available": 44
+          }
+        ],
+        "actionsJson": "{\"onSelect\":{\"type\":\"validateAndReserve\",\"action\":\"SEAT_SELECTION\"}}"
+      },
+      {
+        "type": "OrderSummary",
+        "id": "ordersummary_075",
+        "lines": [
+          {
+            "label": "Item 75 A",
+            "amount": 85
+          },
+          {
+            "label": "Fee 75",
+            "amount": 2.5
+          }
+        ],
+        "total": 87.5,
+        "currency": "USD",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Form",
+        "id": "form_076",
+        "fields": [
+          {
+            "name": "field76",
+            "type": "text",
+            "label": "Field 76",
+            "required": false
+          }
+        ],
+        "label": "Submit 76",
+        "actionsJson": "{\"onSubmit\":{\"action\":\"CHECKOUT\"}}"
+      },
+      {
+        "type": "PaymentForm",
+        "id": "paymentform_077",
+        "amount": 176,
+        "currency": "USD",
+        "methods": [
+          {
+            "value": "CARD"
+          },
+          {
+            "value": "PAYPAL"
+          }
+        ],
+        "fields": [
+          {
+            "name": "cardNumber",
+            "type": "text",
+            "label": "Card Number",
+            "required": true
+          }
+        ],
+        "actionsJson": "{\"onSubmit\":{\"action\":\"PAYMENT\"}}"
+      },
+      {
+        "type": "ConfirmationCard",
+        "id": "confirmationcard_078",
+        "orderId": "ORD-MIXED-0078",
+        "event": "Event 78",
+        "seats": [
+          {
+            "value": "A18"
+          }
+        ],
+        "total": 178
+      },
+      {
+        "type": "SuccessCard",
+        "id": "successcard_079",
+        "message": "Success 79 - mixed gallery component.",
+        "fullName": "{{fullName}}",
+        "email": "{{email}}",
+        "icon": "\u2705"
+      },
+      {
+        "type": "Heading",
+        "id": "heading_080",
+        "text": "Heading 80 - Mixed Gallery",
+        "size": "s",
+        "level": "",
+        "align": "right",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Text",
+        "id": "text_081",
+        "text": "Text block 81: Lorem ipsum dolor sit amet, component 81 in mixed 100.",
+        "size": "s",
+        "align": "center",
+        "color": "muted"
+      },
+      {
+        "type": "Button",
+        "id": "button_082",
+        "label": "Button 82",
+        "href": "#",
+        "variant": "primary",
+        "size": "medium",
+        "actionsJson": "{\"onClick\":{\"type\":\"navigate\",\"target\":\"checkout\"}}"
+      },
+      {
+        "type": "Card",
+        "id": "card_083",
+        "title": "Card 83",
+        "description": "Description for card 83 in mixed gallery.",
+        "icon": "rocket",
+        "mode": "card"
+      },
+      {
+        "type": "Hero",
+        "id": "hero_084",
+        "title": "Hero 84",
+        "description": "Hero description 84",
+        "align": "left",
+        "content": []
+      },
+      {
+        "type": "Grid",
+        "id": "grid_085",
+        "numColumns": 3,
+        "gap": "24px",
+        "items": [],
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Flex",
+        "id": "flex_086",
+        "direction": "row",
+        "justifyContent": "end",
+        "gap": "16px",
+        "wrap": "wrap",
+        "items": []
+      },
+      {
+        "type": "Space",
+        "id": "space_087",
+        "size": "16px",
+        "direction": ""
+      },
+      {
+        "type": "Divider",
+        "id": "divider_088",
+        "label": ""
+      },
+      {
+        "type": "Image",
+        "id": "image_089",
+        "src": "https://picsum.photos/seed/mixed089/600/400",
+        "alt": "Mixed image 89",
+        "caption": "Image 089"
+      },
+      {
+        "type": "SeatGrid",
+        "id": "seatgrid_090",
+        "eventId": "evt-mixed-90",
+        "currency": "USD",
+        "sections": [
+          {
+            "id": "sec-90-a",
+            "name": "Section A 90",
+            "price": 140,
+            "available": 60
+          }
+        ],
+        "actionsJson": "{\"onSelect\":{\"type\":\"validateAndReserve\",\"action\":\"SEAT_SELECTION\"}}",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "OrderSummary",
+        "id": "ordersummary_091",
+        "lines": [
+          {
+            "label": "Item 91 A",
+            "amount": 101
+          },
+          {
+            "label": "Fee 91",
+            "amount": 2.5
+          }
+        ],
+        "total": 103.5,
+        "currency": "USD"
+      },
+      {
+        "type": "Form",
+        "id": "form_092",
+        "fields": [
+          {
+            "name": "field92",
+            "type": "text",
+            "label": "Field 92",
+            "required": false
+          }
+        ],
+        "label": "Submit 92",
+        "actionsJson": "{\"onSubmit\":{\"action\":\"CHECKOUT\"}}"
+      },
+      {
+        "type": "PaymentForm",
+        "id": "paymentform_093",
+        "amount": 192,
+        "currency": "USD",
+        "methods": [
+          {
+            "value": "CARD"
+          },
+          {
+            "value": "PAYPAL"
+          }
+        ],
+        "fields": [
+          {
+            "name": "cardNumber",
+            "type": "text",
+            "label": "Card Number",
+            "required": true
+          }
+        ],
+        "actionsJson": "{\"onSubmit\":{\"action\":\"PAYMENT\"}}"
+      },
+      {
+        "type": "ConfirmationCard",
+        "id": "confirmationcard_094",
+        "orderId": "ORD-MIXED-0094",
+        "event": "Event 94",
+        "seats": [
+          {
+            "value": "A4"
+          }
+        ],
+        "total": 194
+      },
+      {
+        "type": "SuccessCard",
+        "id": "successcard_095",
+        "message": "Success 95 - mixed gallery component.",
+        "fullName": "{{fullName}}",
+        "email": "{{email}}",
+        "icon": "\u2705",
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      },
+      {
+        "type": "Heading",
+        "id": "heading_096",
+        "text": "Heading 96 - Mixed Gallery",
+        "size": "s",
+        "level": "1",
+        "align": "left"
+      },
+      {
+        "type": "Text",
+        "id": "text_097",
+        "text": "Text block 97: Lorem ipsum dolor sit amet, component 97 in mixed 100.",
+        "size": "m",
+        "align": "center",
+        "color": "muted"
+      },
+      {
+        "type": "Button",
+        "id": "button_098",
+        "label": "Button 98",
+        "href": "#",
+        "variant": "primary",
+        "size": "large",
+        "actionsJson": "{\"onClick\":{\"type\":\"navigate\",\"target\":\"checkout\"}}"
+      },
+      {
+        "type": "Card",
+        "id": "card_099",
+        "title": "Card 99",
+        "description": "Description for card 99 in mixed gallery.",
+        "icon": "",
+        "mode": "card"
+      },
+      {
+        "type": "Hero",
+        "id": "hero_100",
+        "title": "Hero 100",
+        "description": "Hero description 100",
+        "align": "left",
+        "content": [],
+        "style": {
+          "background": "#f8fafc",
+          "padding": "12px",
+          "borderRadius": "8px"
+        }
+      }
+    ]
+  }
+}
